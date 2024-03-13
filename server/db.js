@@ -16,6 +16,3 @@ const pool = mysql.createPool({
 
 module.exports = pool;
 
-// const url = 'mysql://o4kdycj8g7al358ye0la:pscale_pw_qLrlC1VHPRlcuq1pK8CPjCJsOtQKUb22yoWRERrXBzE@us-east.connect.psdb.cloud/cosc-3380-team-project-db?ssl={"rejectUnauthorized":false} : false'
-// const pool = mysql.createPool(url)
-// module.exports = pool;
