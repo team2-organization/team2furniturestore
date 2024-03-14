@@ -11,6 +11,12 @@ const server = http.createServer(async (req, res) => {
     const parsedUrl = url.parse(req.url, true);
     const query = parsedUrl.query;
 
+    if (req.url === "/") {
+            res.setHeader('Content-Type', 'text/html');
+            res.write('<html><head><title>Hello, World!</title></head><body><h1>Hello, World!</h1></body></html>');
+            res.end();
+        }
+
     // Get ALl Users
     if (req.url === '/db/products') {
       pool.query('SELECT * FROM products', (error, products) => {
