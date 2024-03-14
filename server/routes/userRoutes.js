@@ -179,30 +179,30 @@ userRouter.delete(
     }
   })
 );
-userRouter.post(
-  '/signin',
-  expressAsyncHandler(async (req, res) => {
-    // const user = await User.findOne({ email: req.body.email });
-    const { email } = req.body;
+// userRouter.post(
+//   '/signin',
+//   expressAsyncHandler(async (req, res) => {
+//     // const user = await User.findOne({ email: req.body.email });
+//     const { email } = req.body;
 
-    const query = 'SELECT * FROM users WHERE email= ?';
-    const user = await pool.query(query, [email]);
+//     const query = 'SELECT * FROM users WHERE email= ?';
+//     const user = await pool.query(query, [email]);
 
-    if (user) {
-      if (bcrypt.compareSync(req.body.password, user[0][0].password)) {
-        res.send({
-          _id: user[0][0]._id,
-          name: user[0][0].name,
-          email: user[0][0].email,
-          isAdmin: user[0][0].isAdmin,
-          token: generateToken(user[0][0]),
-        });
-        return;
-      }
-    }
-    res.status(401).send({ message: 'Invalid email or password' });
-  })
-);
+//     if (user) {
+//       if (bcrypt.compareSync(req.body.password, user[0][0].password)) {
+//         res.send({
+//           _id: user[0][0]._id,
+//           name: user[0][0].name,
+//           email: user[0][0].email,
+//           isAdmin: user[0][0].isAdmin,
+//           token: generateToken(user[0][0]),
+//         });
+//         return;
+//       }
+//     }
+//     res.status(401).send({ message: 'Invalid email or password' });
+//   })
+// );
 
 userRouter.post(
   '/signup',
