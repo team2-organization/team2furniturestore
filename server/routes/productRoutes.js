@@ -209,83 +209,86 @@ productRouter.post(
   })
 );
 
-const PAGE_SIZE = 3;
+// const PAGE_SIZE = 3;
 
-productRouter.get(
-  '/admin',
-  isAuth,
-  isAdmin,
-  expressAsyncHandler(async (req, res) => {
-    const { query } = req;
-    const page = query.page || 1;
-    const pageSize = query.pageSize || PAGE_SIZE;
+// productRouter.get(
+//   '/admin',
+//   isAuth,
+//   isAdmin,
+//   expressAsyncHandler(async (req, res) => {
+//     const { query } = req;
+//     console.log(query)
+//     const page = query.page || 1;
+//     const pageSize = query.pageSize || PAGE_SIZE;
 
-    // const products = await Product.find()
-    const data = await pool.query(`SELECT * from products`);
-    // console.log(products[0][0]);
-    const products = data[0];
-    // .skip(pageSize * (page - 1))
-    // .limit(pageSize);
-    const countProducts = await Product.countDocuments();
-    res.send({
-      products,
-      countProducts,
-      page,
-      pages: Math.ceil(countProducts / pageSize),
-    });
-  })
-);
+//     // const products = await Product.find()
+//     const data = await pool.query(`SELECT * from products`);
+//     // console.log(products[0][0]);
+//     const products = data[0];
+//     // .skip(pageSize * (page - 1))
+//     // .limit(pageSize);
+//     const countProducts = await Product.countDocuments();
+//     res.send({
+//       products,
+//       countProducts,
+//       page,
+//       pages: Math.ceil(countProducts / pageSize),
+//     });
+//   })
+// );
 
-productRouter.get(
-  '/search',
-  expressAsyncHandler(async (req, res) => {
+// productRouter.get(
+//   '/search',
+//   expressAsyncHandler(async (req, res) => {
 
 
-    const category = req.query.category;
-    const searchQuery = `SELECT * FROM products WHERE category = ?`;
-    const data = await pool.query(searchQuery, [category]);
-    const products = data[0];
+//     const category = req.query.category;
+//     const searchQuery = `SELECT * FROM products WHERE category = ?`;
+//     const data = await pool.query(searchQuery, [category]);
+//     const products = data[0];
 
-    res.send({
-      products,
-    });
-  })
-);
+//     res.send({
+//       products,
+//     });
+//   })
+// );
 
-productRouter.get(
-  '/categories',
-  expressAsyncHandler(async (req, res) => {
-    const query = 'SELECT * FROM categories';
-    const data = await pool.query(query);
-    const titles = data[0];
-    const categories = titles.map((item) => item.title);
-    res.send(categories);
+// productRouter.get(
+//   '/categories',
+//   expressAsyncHandler(async (req, res) => {
+//     const query = 'SELECT * FROM categories';
+//     const data = await pool.query(query);
+//     const titles = data[0];
+//     const categories = titles.map((item) => item.title);
+//     res.send(categories);
     
-  })
-);
+//   })
+// );
 
-productRouter.get('/slug/:slug', async (req, res) => {
-  const { slug } = req.params;
-  const query = 'SELECT * FROM products WHERE slug= ?';
-  const product = await pool.query(query, [slug]);
+// productRouter.get('/slug/:slug', async (req, res) => {
+//   const { slug } = req.params;
+//   const query = 'SELECT * FROM products WHERE slug= ?';
+//   const product = await pool.query(query, [slug]);
 
-  if (product) {
-    res.send(product[0][0]);
-  } else {
-    res.status(404).send({ message: 'Product Not Found' });
-  }
-});
-productRouter.get('/:id', async (req, res) => {
-  const { id } = req.params;
+//   if (product) {
+//     res.send(product[0][0]);
+//   } else {
+//     res.status(404).send({ message: 'Product Not Found' });
+//   }
+// });
 
-  const query = 'SELECT * FROM products WHERE _id= ?';
-  const product = await pool.query(query, [id]);
+// productRouter.get('/:id', async (req, res) => {
+//   const { id } = req.params;
 
-  if (product) {
-    res.send(product[0][0]);
-  } else {
-    res.status(404).send({ message: 'Product Not Found' });
-  }
-});
+//   const query = 'SELECT * FROM products WHERE _id= ?';
+//   const product = await pool.query(query, [id]);
+
+//   if (product) {
+//     res.send(product[0][0]);
+//   } else {
+//     res.status(404).send({ message: 'Product Not Found' });
+//   }
+// });
+
 
 export default productRouter;

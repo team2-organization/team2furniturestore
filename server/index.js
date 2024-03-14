@@ -1,24 +1,101 @@
 const http = require('http');
 const url = require('url');
 const pool = require('./db');
+const bcrypt = require('bcryptjs');
+const jwt = require('jsonwebtoken');
+const mg = require('mailgun-js');
+const cors = require('cors');
+const nodemailer = require('nodemailer');
+
+// const { generateToken } = require('./utils');
+
+const handleCors = (req, res) => {
+  res.setHeader('Access-Control-Allow-Origin', '*');
+  res.setHeader('Access-Control-Allow-Methods', 'GET, POST, PUT, DELETE');
+  res.setHeader('Access-Control-Allow-Headers', 'Content-Type');
+
+  if (req.method === 'OPTIONS') {
+    res.writeHead(200);
+    res.end();
+    return;
+  }
+};
+const generateToken = (user) => {
+  return jwt.sign(
+    {
+      _id: user._id,
+      name: user.name,
+      email: user.email,
+      isAdmin: user.isAdmin,
+    },
+    process.env.JWT_SECRET,
+    {
+      expiresIn: '30d',
+    }
+  );
+};
 
 // Create A Server
 const server = http.createServer(async (req, res) => {
   // // Handle Cors Function To Allow Axios
-  handleCors(req, res);
+  // handleCors(req, res);
+  cors()(req, res, () => {});
+
+  // const isAdmin = (req, res) => {
+  //   console.log(req.user);
+  //   if (req.user && req.user.isAdmin) {
+  //     //  console.log("wfdfw")
+  //   } else {
+  //     console.log('dsf');
+  //     res.writeHead(401, { 'Content-Type': 'application/json' });
+  //     res.end(JSON.stringify({ message: 'Invalid Admin Token' }));
+  //   }
+  // };
+
+  // const isAuth = (req, res) => {
+  //   const authorization = req.headers.authorization;
+
+  //   if (authorization) {
+  //     const token = authorization.slice(7); // Remove 'Bearer ' prefix
+  //     jwt.verify(token, process.env.JWT_SECRET, (err, decode) => {
+  //       if (err) {
+  //         res.writeHead(401, { 'Content-Type': 'application/json' });
+  //         res.end(JSON.stringify({ message: 'Invalid Token' }));
+  //       } else {
+  //         req.user = decode;
+  //         console.log('sdsfdf');
+  //         // If authentication is successful, you can proceed with the rest of your logic here
+  //       }
+  //     });
+  //   } else {
+  //     res.writeHead(401, { 'Content-Type': 'application/json' });
+  //     res.end(JSON.stringify({ message: 'No Token' }));
+  //   }
+  // };
+
   // // GET Requests
   if (req.method === 'GET') {
     const parsedUrl = url.parse(req.url, true);
     const query = parsedUrl.query;
 
-    if (req.url === "/") {
-            res.setHeader('Content-Type', 'text/html');
-            res.write('<html><head><title>Hello, World!</title></head><body><h1>Hello, World!</h1></body></html>');
-            res.end();
-        }
+    const pathnameSegments = parsedUrl.pathname.split('/');
+    // console.log(pathnameSegments[1])
+    const slug = pathnameSegments[pathnameSegments.length - 1];
+    // const slug = parsedUrl.query.slug;
+    // console.log(slug)
+    // Extract the slug parameter from the URL
+
+    if (req.url === '/') {
+      res.setHeader('Content-Type', 'text/html');
+      res.write(
+        '<html><head><title>Hello, World!</title></head><body><h1>Hello, World!</h1></body></html>'
+      );
+      res.end();
+    }
 
     // Get ALl Users
     if (req.url === '/db/products') {
+      console.log('1');
       pool.query('SELECT * FROM products', (error, products) => {
         if (error) {
           res.writeHead(500, { 'Content-Type': 'application/json' });
@@ -28,7 +105,12 @@ const server = http.createServer(async (req, res) => {
           res.end(JSON.stringify(products));
         }
       });
-    } else if (req.url === '/db/products/categories') {
+    } else if (
+      req.url === '/db/products/categories' &&
+      pathnameSegments[3] === 'categories'
+    ) {
+      console.log('2');
+
       pool.query('SELECT * FROM categories', (error, data) => {
         if (error) {
           res.writeHead(500, { 'Content-Type': 'application/json' });
@@ -40,6 +122,8 @@ const server = http.createServer(async (req, res) => {
         }
       });
     } else if (parsedUrl.pathname === '/db/products/search' && query.category) {
+      console.log('3');
+
       const category = query.category;
 
       pool.query(
@@ -51,13 +135,119 @@ const server = http.createServer(async (req, res) => {
             res.end(JSON.stringify({ error: error }));
           } else {
             res.writeHead(200, { 'Content-Type': 'application/json' });
-            const products = {products: data};
+            const products = { products: data };
             res.end(JSON.stringify(products));
           }
         }
       );
+    } else if (parsedUrl.pathname === '/db/products/admin' && query.page) {
+      console.log('4');
+
+      const page = query.page || 2;
+      const pageSize = query.pageSize || 3;
+
+      pool.query('SELECT * FROM products', (error, data) => {
+        if (error) {
+          res.writeHead(500, { 'Content-Type': 'application/json' });
+          res.end(JSON.stringify({ error: error }));
+        } else {
+          res.writeHead(200, { 'Content-Type': 'application/json' });
+          const products = { products: data };
+
+          res.end(JSON.stringify(products));
+        }
+      });
+    } else if (pathnameSegments[3] === 'slug') {
+      const slugg = pathnameSegments[4];
+
+      pool.query(
+        'SELECT * FROM products WHERE slug = ?',
+        [slugg],
+        (error, data) => {
+          if (error) {
+            res.writeHead(500, { 'Content-Type': 'application/json' });
+            res.end(JSON.stringify({ error: error }));
+          } else {
+            res.writeHead(200, { 'Content-Type': 'application/json' });
+
+            res.end(JSON.stringify(data[0]));
+          }
+        }
+      );
+    } else if (pathnameSegments[3] === 'id') {
+      const idd = pathnameSegments[4];
+
+
+      pool.query(
+        'SELECT * FROM products WHERE _id = ?',
+        [idd],
+        (error, data) => {
+          if (error) {
+            res.writeHead(500, { 'Content-Type': 'application/json' });
+            res.end(JSON.stringify({ error: error }));
+          } else {
+            res.writeHead(200, { 'Content-Type': 'application/json' });
+
+            res.end(JSON.stringify(data[0]));
+          }
+        }
+      );
+    }
+  } else if (req.method === 'POST') {
+    if (req.url === '/db/users/signin') {
+      let data = '';
+      req.on('data', (chunk) => {
+        data += chunk;
+        // console.log(chunk)
+      });
+
+      req.on('end', () => {
+        const body = JSON.parse(data);
+
+        const email = body.email;
+
+        const password = body.password;
+
+        pool.query(
+          'SELECT * FROM users WHERE email = ?',
+          [email],
+          (error, users) => {
+            if (error) {
+              res.writeHead(500, { 'Content-Type': 'application/json' });
+              res.end(JSON.stringify({ error: error }));
+            }
+            const user = users[0];
+            if (users[0]) {
+              if (bcrypt.compareSync(password, users[0].password)) {
+                res.writeHead(200, { 'Content-Type': 'application/json' });
+                res.end(
+                  JSON.stringify({
+                    _id: user._id,
+                    name: user.name,
+                    email: user.email,
+                    isAdmin: user.isAdmin,
+                    token: generateToken(user),
+                  })
+                );
+                return;
+              } else {
+                res.writeHead(401, { 'Content-Type': 'application/json' });
+                res.end(
+                  JSON.stringify({ message: 'Wrong username or password' })
+                );
+              }
+            } else {
+              res.writeHead(401, { 'Content-Type': 'application/json' });
+              res.end(
+                JSON.stringify({ message: 'Wrong username or password' })
+              );
+            }
+          }
+        );
+      });
     }
   }
+
   // else if (req.method === "POST") {
 
   //     // Check For User
@@ -90,7 +280,8 @@ const server = http.createServer(async (req, res) => {
   //         });
 
   //     // Get A User
-  //     } else if (req.url === "/userlogin") {
+  //     }
+  // else if (req.url === "/userlogin") {
   //         let data = "";
   //         req.on("data", (chunk) => {
   //             data += chunk;
@@ -709,17 +900,17 @@ const server = http.createServer(async (req, res) => {
 });
 
 // Handle Cors Function To Allow Axios
-const handleCors = (req, res) => {
-  res.setHeader('Access-Control-Allow-Origin', '*');
-  res.setHeader('Access-Control-Allow-Methods', 'GET, POST, PUT, DELETE');
-  res.setHeader('Access-Control-Allow-Headers', 'Content-Type');
+// const handleCors = (req, res) => {
+//   res.setHeader('Access-Control-Allow-Origin', '*');
+//   res.setHeader('Access-Control-Allow-Methods', 'GET, POST, PUT, DELETE');
+//   res.setHeader('Access-Control-Allow-Headers', 'Content-Type');
 
-  if (req.method === 'OPTIONS') {
-    res.writeHead(200);
-    res.end();
-    return;
-  }
-};
+//   if (req.method === 'OPTIONS') {
+//     res.writeHead(200);
+//     res.end();
+//     return;
+//   }
+// };
 
 // Set Up Server To Listen For Requests From Port 3001
 const PORT = process.env.PORT || 4001;
