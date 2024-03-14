@@ -32,14 +32,14 @@ export default function CartScreen() {
     // }
     console.log(item.quantity, item.countInStock);
 
-    const { data } = await axios.get(`/db/products/${item._id}`);
+    const { data } = await axios.get(`/db/products/id/${item._id}`);
     if (data.countInStock < quantity) {
       window.alert('Sorry. Product is out of stock');
       return;
     }
-    if (item.countInStock - (item.quantity + 1) <= 10) {
-      setLowCount(true);
-    }
+    // if (item.countInStock - (item.quantity + 1) <= 10) {
+    //   setLowCount(true);
+    // }
 
     ctxDispatch({
       type: 'CART_ADD_ITEM',
@@ -73,12 +73,12 @@ export default function CartScreen() {
                 <ListGroup.Item key={item._id}>
                   <Row className='align-items-center'>
                     <Col md={4}>
+                      <Link className='namestyle' to={`/product/${item.slug}`}>
                       <img
                         src={item.image}
                         alt={item.name}
                         className='img-fluid rounded img-thumbnail'
                       ></img>{' '}
-                      <Link className='namestyle' to={`/product/${item.slug}`}>
                         {item.name}
                       </Link>
                     </Col>
@@ -118,7 +118,7 @@ export default function CartScreen() {
                           item.quantity === item.countInStock ||
                           lowCount ||
                           item.countInStock === 10 ||
-                          (lowCount && item.quantity === 1)
+                          (lowCount && item.quantity === 2)
                         }
                       >
                         <i className='fas fa-plus-circle'></i>

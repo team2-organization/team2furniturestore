@@ -68,7 +68,7 @@ export default function ProductEditScreen() {
     const fetchData = async () => {
       try {
         dispatch({ type: 'FETCH_REQUEST' });
-        const { data } = await axios.get(`/db/products/${productId}`);
+        const { data } = await axios.get(`/db/products/id/${productId}`);
         setName(data.name);
         setSlug(data.slug);
         setPrice(data.price);
@@ -209,7 +209,7 @@ export default function ProductEditScreen() {
           <Form.Group className='mb-3' controlId='name'>
             <Form.Label>Price</Form.Label>
             <Form.Control
-            type = "number"
+              type='number'
               value={price}
               onChange={(e) => setPrice(e.target.value)}
               required
@@ -230,9 +230,9 @@ export default function ProductEditScreen() {
           </Form.Group>
 
           {/* <Form.Group className='mb-3' controlId='additionalImage'> */}
-            {/* <Form.Label>Additional Images</Form.Label> */}
-            {/* {images.length === 0 && <MessageBox>No image</MessageBox>} */}
-            {/* <ListGroup variant='flush'>
+          {/* <Form.Label>Additional Images</Form.Label> */}
+          {/* {images.length === 0 && <MessageBox>No image</MessageBox>} */}
+          {/* <ListGroup variant='flush'>
               {images.map((x) => (
                 <ListGroup.Item key={x}>
                   {x}
@@ -261,20 +261,20 @@ export default function ProductEditScreen() {
             />
           </Form.Group> */}
           <Form.Group className='mb-3' controlId='category'>
-          <Form.Label>Category</Form.Label>
-          <Form.Select
-            aria-label='Category'
-            value={category}
-            onChange={(e) => setCategory(e.target.value)}
-          >
-            <option value=''>Select...</option>
-            <option value='Kitchen'>Kitchen</option>
-            <option value='Livingroom'>Livingroom</option>
-            <option value='Dining'>Dining</option>
-            <option value='Outdoor'>Outdoor</option>
-            <option value='Bedroom'>Bedroom</option>
-          </Form.Select>
-        </Form.Group>
+            <Form.Label>Category</Form.Label>
+            <Form.Select
+              aria-label='Category'
+              value={category}
+              onChange={(e) => setCategory(e.target.value)}
+            >
+              <option value=''>Select...</option>
+              <option value='Kitchen'>Kitchen</option>
+              <option value='Livingroom'>Livingroom</option>
+              <option value='Dining'>Dining</option>
+              <option value='Outdoor'>Outdoor</option>
+              <option value='Bedroom'>Bedroom</option>
+            </Form.Select>
+          </Form.Group>
 
           <Form.Group className='mb-3' controlId='brand'>
             <Form.Label>Brand</Form.Label>
@@ -287,7 +287,7 @@ export default function ProductEditScreen() {
           <Form.Group className='mb-3' controlId='countInStock'>
             <Form.Label>Count In Stock</Form.Label>
             <Form.Control
-            type="number"
+              type='number'
               value={countInStock}
               onChange={(e) => setCountInStock(e.target.value)}
               required
