@@ -72,6 +72,10 @@ export default function UserListScreen() {
 
   const deleteHandler = async (user) => {
     if (window.confirm('Are you sure to delete?')) {
+      if (user.isAdmin === 'true') {
+        alert('Cannot delete Admin User');
+        return;
+      }
       try {
         dispatch({ type: 'DELETE_REQUEST' });
         await axios.delete(`/db/users/${user._id}`, {
@@ -98,9 +102,9 @@ export default function UserListScreen() {
       {loading ? (
         <LoadingBox></LoadingBox>
       ) : error ? (
-        <MessageBox variant="danger">{error}</MessageBox>
+        <MessageBox variant='danger'>{error}</MessageBox>
       ) : (
-        <table className="table">
+        <table className='table'>
           <thead>
             <tr>
               <th>ID</th>
@@ -116,19 +120,19 @@ export default function UserListScreen() {
                 <td>{user._id}</td>
                 <td>{user.name}</td>
                 <td>{user.email}</td>
-                <td>{user.isAdmin === "true"? 'YES' : 'NO'}</td>
+                <td>{user.isAdmin === 'true' ? 'YES' : 'NO'}</td>
                 <td>
                   <Button
-                    type="button"
-                    variant="light"
+                    type='button'
+                    variant='light'
                     onClick={() => navigate(`/admin/user/${user._id}`)}
                   >
                     Edit
                   </Button>
                   &nbsp;
                   <Button
-                    type="button"
-                    variant="light"
+                    type='button'
+                    variant='light'
                     onClick={() => deleteHandler(user)}
                   >
                     Delete
