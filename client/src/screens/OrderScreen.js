@@ -126,62 +126,63 @@ export default function OrderScreen() {
     return () => clearTimeout(timeoutId);
   }, []); // Empty dependency array means this effect runs once after the initial render
 
-  useEffect(() => {
-    const fetchOrder = async () => {
-      try {
-        dispatch({ type: 'FETCH_REQUEST' });
-        const { data } = await axios.get(`/db/orders/${orderId}`, {
-          headers: { authorization: `Bearer ${userInfo.token}` },
-        });
-        dispatch({ type: 'FETCH_SUCCESS', payload: data });
-      } catch (err) {
-        dispatch({ type: 'FETCH_FAIL', payload: getError(err) });
-      }
-    };
-
-    if (!userInfo) {
-      return navigate('/login');
-    }
-    if (
-      !order._id ||
-      successPay ||
-      successDeliver ||
-      (order._id && order._id !== orderId)
-    ) {
-      fetchOrder();
-      if (successPay) {
-        dispatch({ type: 'PAY_RESET' });
-      }
-      if (successDeliver) {
-        dispatch({ type: 'DELIVER_RESET' });
-      }
-    } else {
-      const loadPaypalScript = async () => {
-        const { data: clientId } = await axios.get('/db/keys/paypal', {
-          headers: { authorization: `Bearer ${userInfo.token}` },
-        });
-        paypalDispatch({
-          type: 'resetOptions',
-          value: {
-            'client-id': clientId,
-            currency: 'USD',
-          },
-        });
-        paypalDispatch({ type: 'setLoadingStatus', value: 'pending' });
+  useEffect(
+    () => {
+      const fetchOrder = async () => {
+        try {
+          dispatch({ type: 'FETCH_REQUEST' });
+          const { data } = await axios.get(`/db/orders/${orderId}`, {
+            headers: { authorization: `Bearer ${userInfo.token}` },
+          });
+          dispatch({ type: 'FETCH_SUCCESS', payload: data });
+        } catch (err) {
+          dispatch({ type: 'FETCH_FAIL', payload: getError(err) });
+        }
       };
-      loadPaypalScript();
-    }
-  }, 
-  // [
-  //   order,
-  //   userInfo,
-  //   orderId,
-  //   navigate,
-  //   paypalDispatch,
-  //   successPay,
-  //   successDeliver,
-  // ]
-  []
+
+      if (!userInfo) {
+        return navigate('/login');
+      }
+      if (
+        !order._id ||
+        successPay ||
+        successDeliver ||
+        (order._id && order._id !== orderId)
+      ) {
+        fetchOrder();
+        if (successPay) {
+          dispatch({ type: 'PAY_RESET' });
+        }
+        if (successDeliver) {
+          dispatch({ type: 'DELIVER_RESET' });
+        }
+      } else {
+        const loadPaypalScript = async () => {
+          const { data: clientId } = await axios.get('/db/keys/paypal', {
+            headers: { authorization: `Bearer ${userInfo.token}` },
+          });
+          paypalDispatch({
+            type: 'resetOptions',
+            value: {
+              'client-id': clientId,
+              currency: 'USD',
+            },
+          });
+          paypalDispatch({ type: 'setLoadingStatus', value: 'pending' });
+        };
+        loadPaypalScript();
+      }
+    },
+    // [
+    //   order,
+    //   userInfo,
+    //   orderId,
+    //   navigate,
+    //   paypalDispatch,
+    //   successPay,
+    //   successDeliver,
+    // ]
+    []
   );
 
   async function deliverOrderHandler() {
@@ -201,7 +202,23 @@ export default function OrderScreen() {
       dispatch({ type: 'DELIVER_FAIL' });
     }
   }
+  const change = (ordering) => {
+    const dateString = ordering;
+    const dateObject = new Date(dateString);
 
+    // Get month, day, and year from the date object
+    const month = dateObject.getMonth() + 1; // Months are zero-indexed, so add 1
+    const day = dateObject.getDate();
+    const year = dateObject.getFullYear();
+
+    // Format month and day with leading zeros if necessary
+    const formattedMonth = month < 10 ? `0${month}` : month;
+    const formattedDay = day < 10 ? `0${day}` : day;
+
+    // Create the formatted date string in "MM DD YYYY" format
+    const formattedDate = `${formattedMonth}-${formattedDay}-${year}`;
+    return formattedDate;
+  };
 
   return loading ? (
     <LoadingBox></LoadingBox>
@@ -236,7 +253,7 @@ export default function OrderScreen() {
               </Card.Text> */}
               {order.isDelivered ? (
                 <MessageBox variant='success'>
-                  Delivered at {order.deliveredAt}
+                  Will be delivered in 3-5 Business Days
                 </MessageBox>
               ) : (
                 <MessageBox variant={paymentColor}>{paymentStatus}</MessageBox>
@@ -247,11 +264,11 @@ export default function OrderScreen() {
             <Card.Body>
               <Card.Title>Payment</Card.Title>
               <Card.Text>
-                <strong>Method:</strong> {order.paymentMethod}
+                <strong>Method:</strong> Credit Card
               </Card.Text>
               {order.isPaid ? (
                 <MessageBox variant='success'>
-                  Paid at {order.paidAt}
+                  Paid on {change(order.createdAt)}
                 </MessageBox>
               ) : (
                 <MessageBox variant='success'> Paid</MessageBox>

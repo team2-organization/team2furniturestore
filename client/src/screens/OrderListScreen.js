@@ -116,19 +116,11 @@ export default function OrderListScreen() {
               <tr key={order._id}>
                 <td>{order._id}</td>
                 <td>{order.user_name ? order.user_name : 'DELETED USER'}</td>
-                <td>{order.createdAt.substring(0, 10)}</td>
-                <td>{order.totalPrice.toFixed(2)}</td>
-                <td>
-                  {order.isPaid === 'true'
-                    ? order.paidAt.substring(0, 10)
-                    : 'Yes'}
-                </td>
+                <td>{order.createdAt}</td>
+                <td>{order.totalPrice}</td>
+                <td>{order.isPaid === 'false' ? 'Yes' : 'No'}</td>
 
-                <td>
-                  {order.isDelivered === 'true'
-                    ? order.deliveredAt.substring(0, 10)
-                    : 'Yes'}
-                </td>
+                <td>{order.isDelivered === 'false' ? 'Shipping...' : 'No'}</td>
                 <td>
                   <Button
                     type='button'
