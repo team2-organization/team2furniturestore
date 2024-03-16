@@ -80,7 +80,7 @@ function Product(props) {
           )}
 
           {/* <Card.Title className='light'>{product.name}</Card.Title> */}
-          {product.countInStock <=  10 ? (
+          {product.countInStock <=  10 &&  product.countInStock  != 0? (
             <Col className='low' style={{ color: 'rgb(185, 56, 14)' }}>
               {' '}
               <strong>{product.countInStock} left </strong> <IoIosFlame />
