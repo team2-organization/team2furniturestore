@@ -33,6 +33,8 @@ import ProductEditScreen from './screens/ProductEditScreen';
 import ProductCreateScreen from './screens/ProductCreateScreen';
 import OrderListScreen from './screens/OrderListScreen';
 import UserListScreen from './screens/UserListScreen';
+import RefundListScreen from './screens/RefundListScreen';
+import RefundScreen from './screens/RefundScreen';
 import UserEditScreen from './screens/UserEditScreen';
 import MapScreen from './screens/MapScreen';
 import ForgetPasswordScreen from './screens/ForgetPasswordScreen';
@@ -160,6 +162,9 @@ function App() {
                       <LinkContainer to='/admin/users'>
                         <NavDropdown.Item>Users</NavDropdown.Item>
                       </LinkContainer>
+                      <LinkContainer to='/admin/refunds'>
+                        <NavDropdown.Item>Refunds Requests</NavDropdown.Item>
+                      </LinkContainer>
                     </NavDropdown>
                   )}
                 </Nav>
@@ -232,6 +237,14 @@ function App() {
                   </ProtectedRoute>
                 }
               ></Route>
+               <Route
+                path='/refund/:id'
+                element={
+                  <ProtectedRoute>
+                    <RefundScreen />
+                  </ProtectedRoute>
+                }
+              ></Route>
               <Route
                 path='/orderhistory'
                 element={
@@ -275,6 +288,14 @@ function App() {
                 element={
                   <AdminRoute>
                     <ProductListScreen />
+                  </AdminRoute>
+                }
+              ></Route>
+               <Route
+                path='/admin/refunds'
+                element={
+                  <AdminRoute>
+                    <RefundListScreen />
                   </AdminRoute>
                 }
               ></Route>

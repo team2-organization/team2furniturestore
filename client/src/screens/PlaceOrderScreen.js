@@ -58,7 +58,7 @@ console.log(renew)
     // };
     setTimeout(() => {
       setOrderLoading(false);
-    }, 3000); // 2000 milliseconds = 2 seconds
+    }, 2000); // 2000 milliseconds = 2 seconds
     // };
     setOrderplaced(true);
     // const setLoadingTrue = () => {
@@ -207,69 +207,91 @@ console.log(renew)
                   </ListGroup>
                 )}
 
-                <Link to='/cart'>Edit</Link>
+                {/* <Link to='/cart'>Edit</Link> */}
               </Card.Body>
             </Card>
           </Col>
-          <Col md={4}>
-            <Card>
-              <Card.Body>
-                <Card.Title>Order Summary</Card.Title>
-                <ListGroup variant='flush'>
-                  <ListGroup.Item>
-                    <Row>
-                      <Col>Items</Col>
-                      <Col>${cart.itemsPrice.toFixed(2)}</Col>
-                    </Row>
-                  </ListGroup.Item>
-                  <ListGroup.Item>
-                    <Row>
-                      <Col>Shipping</Col>
-                      <Col>${cart.shippingPrice.toFixed(2)}</Col>
-                    </Row>
-                  </ListGroup.Item>
-                  <ListGroup.Item>
-                    <Row>
-                      <Col>Tax</Col>
-                      <Col>${cart.taxPrice.toFixed(2)}</Col>
-                    </Row>
-                  </ListGroup.Item>
-                  <ListGroup.Item>
-                    <Row>
-                      <Col>
-                        <strong> Order Total</strong>
-                      </Col>
-                      <Col>
-                        <strong>${cart.totalPrice.toFixed(2)}</strong>
-                      </Col>
-                    </Row>
-                  </ListGroup.Item>
-                  <ListGroup.Item>
-                    {orderPlaced === true ? (
-                      // <MessageBox variant='success'>
-                      //   {/* Order Created for {state.userInfo.name}! */}
-                      // </MessageBox>
-                      <Link to='/orderhistory'>
-                   
-                        <Button>View Your Orders</Button>
-                    </Link>
-                    ) : (
-                      <div className='d-grid'>
-                        <Button
-                          type='button'
-                          onClick={placeOrderHandler}
-                          // disabled={cart.cartItems.length === 0}
-                        >
-                          Place order
-                        </Button>
-                      </div>
-                      // {loading && <LoadingBox></LoadingBox>}
-                    )}
-                  </ListGroup.Item>
-                </ListGroup>
-              </Card.Body>
-            </Card>
+
+          {
+            orderPlaced != true ? 
+
+(<Col md={4}>
+<Card>
+  <Card.Body>
+    <Card.Title>Order Summary</Card.Title>
+    <ListGroup variant='flush'>
+      <ListGroup.Item>
+        <Row>
+          <Col>Items</Col>
+          <Col>${cart.itemsPrice.toFixed(2)}</Col>
+        </Row>
+      </ListGroup.Item>
+      <ListGroup.Item>
+        <Row>
+          <Col>Shipping</Col>
+          <Col>${cart.shippingPrice.toFixed(2)}</Col>
+        </Row>
+      </ListGroup.Item>
+      <ListGroup.Item>
+        <Row>
+          <Col>Tax</Col>
+          <Col>${cart.taxPrice.toFixed(2)}</Col>
+        </Row>
+      </ListGroup.Item>
+      <ListGroup.Item>
+        <Row>
+          <Col>
+            <strong> Order Total</strong>
           </Col>
+          <Col>
+            <strong>${cart.totalPrice.toFixed(2)}</strong>
+          </Col>
+        </Row>
+      </ListGroup.Item>
+      <ListGroup.Item>
+        {orderPlaced === true ? (
+          // <MessageBox variant='success'>
+          //   {/* Order Created for {state.userInfo.name}! */}
+          // </MessageBox>
+          <Link to='/orderhistory'>
+       
+            <Button>View Your Orders</Button>
+        </Link>
+        ) : (
+          <div className='d-grid'>
+            <Button
+              type='button'
+              onClick={placeOrderHandler}
+              // disabled={cart.cartItems.length === 0}
+            >
+              Place order
+            </Button>
+          </div>
+          // {loading && <LoadingBox></LoadingBox>}
+        )}
+      </ListGroup.Item>
+    </ListGroup>
+  </Card.Body>
+</Card>
+</Col>):null
+
+          }
+          {
+   orderPlaced === true ? 
+          ( <div className='balance'>
+            
+            <Link to='/orderhistory'>
+            <Button  className='larger'
+              type='button'
+              // onClick={placeOrderHandler}
+              // disabled={cart.cartItems.length === 0}
+            >
+              View Order Details
+            </Button>
+            </Link>
+          </div>):null
+          }
+         
         </Row>
       )}
     </div>

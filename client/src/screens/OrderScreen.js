@@ -10,6 +10,7 @@ import ListGroup from 'react-bootstrap/ListGroup';
 import Card from 'react-bootstrap/Card';
 import { Link } from 'react-router-dom';
 import LoadingBox from '../components/LoadingBox';
+import Axios from "axios"
 import MessageBox from '../components/MessageBox';
 import { Store } from '../Store';
 import { getError } from '../utils';
@@ -76,7 +77,7 @@ export default function OrderScreen() {
   });
   const [paymentStatus, setPaymentStatus] = useState('Not Delivered');
   const [paymentColor, setPaymentColor] = useState('danger');
-
+const [refundNote, setRefundNote] = useState("")
   const [{ isPending }, paypalDispatch] = usePayPalScriptReducer();
 
   function createOrder(data, actions) {
@@ -220,6 +221,35 @@ export default function OrderScreen() {
     return formattedDate;
   };
 
+  // console.log(refundNote)
+  const handleRefund = async () => {
+    if(refundNote === "") {
+      alert("You must leave a refund note")
+      return;
+    }
+    alert("Continue to refund?")
+    
+    const { order } = await Axios.post(
+      '/db/orders/refund',
+      {
+        orderId:orderId,
+        name:userInfo.name,
+        note: refundNote,
+
+
+
+        
+      },
+      {
+        headers: {
+          authorization: `Bearer ${userInfo.token}`,
+        },
+      }
+      );
+      // console.log(orderId)
+      setRefundNote("")
+    
+  }
   return loading ? (
     <LoadingBox></LoadingBox>
   ) : error ? (
@@ -235,22 +265,7 @@ export default function OrderScreen() {
           <Card className='mb-3'>
             <Card.Body>
               <Card.Title>Shipping</Card.Title>
-              {/* <Card.Text>
-                <strong>Name:</strong> {order.shippingAddress.fullName} <br />
-                <strong>Address: </strong> {order.shippingAddress.address},
-                {order.shippingAddress.city}, {order.shippingAddress.postalCode}
-                ,{order.shippingAddress.country}
-                &nbsp;
-                {order.shippingAddress.location &&
-                  order.shippingAddress.location.lat && (
-                    <a
-                      target='_new'
-                      href={`https://maps.google.com?q=${order.shippingAddress.location.lat},${order.shippingAddress.location.lng}`}
-                    >
-                      Show On Map
-                    </a>
-                  )}
-              </Card.Text> */}
+            
               {order.isDelivered ? (
                 <MessageBox variant='success'>
                   Will be delivered in 3-5 Business Days
@@ -272,6 +287,21 @@ export default function OrderScreen() {
                 </MessageBox>
               ) : (
                 <MessageBox variant='success'> Paid</MessageBox>
+              )}
+            </Card.Body>
+          </Card>
+          <Card className='mb-3'>
+            <Card.Body>
+
+              <Card.Title>Refund</Card.Title>
+            <textarea required placeholder='Leave a refund note' className='notes' value={refundNote}   onChange={(e) => setRefundNote(e.target.value)}/>
+            
+              {order.isDelivered ? (
+                <Button onClick={handleRefund}>
+                 Request Refund
+                </Button>
+              ) : (
+                <MessageBox variant={paymentColor}>{paymentStatus}</MessageBox>
               )}
             </Card.Body>
           </Card>

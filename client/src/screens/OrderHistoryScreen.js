@@ -80,7 +80,7 @@ export default function OrderHistoryScreen() {
                 <td>{order._id}</td>
                 <td>{order.createdAt}</td>
                 <td>{order.totalPrice}</td>
-                <td>{order.isPaid === "false" ? "Yes" : "No"}</td>
+                <td>Yes</td>
                 <td>{order.isDelivered === "false" ? "Shipping ..." : "No"}</td>
                 <td>
                   <Button
