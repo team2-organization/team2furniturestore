@@ -6,6 +6,17 @@ import { useNavigate } from 'react-router-dom';
 import { Store } from '../Store';
 import CheckoutSteps from '../components/CheckoutSteps';
 
+import { useRef } from "react";
+import emailjs from "@emailjs/browser";
+
+import { Link,} from "react-router-dom";
+import { GrSecure } from "react-icons/gr";
+import { usePaymentInputs } from "react-payment-inputs";
+
+
+
+
+
 export default function ShippingAddressScreen() {
   const navigate = useNavigate();
   const { state, dispatch: ctxDispatch } = useContext(Store);
@@ -114,16 +125,16 @@ export default function ShippingAddressScreen() {
               variant="light"
               onClick={() => navigate('/map')}
             >
-              Choose Location On Map
+              {/* Choose Location On Map */}
             </Button>
-            {shippingAddress.location && shippingAddress.location.lat ? (
+            {/* {shippingAddress.location && shippingAddress.location.lat ? (
               <div>
                 LAT: {shippingAddress.location.lat}
                 LNG:{shippingAddress.location.lng}
               </div>
             ) : (
               <div>No location</div>
-            )}
+            )} */}
           </div>
 
           <div className="mb-3">

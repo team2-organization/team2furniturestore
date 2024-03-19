@@ -35,9 +35,10 @@ export default function PlaceOrderScreen() {
   const [{ loading }, dispatch] = useReducer(reducer, {
     loading: false,
   });
-
+  
   const { state, dispatch: ctxDispatch } = useContext(Store);
   const { cart, userInfo } = state;
+  // console.log(cart.cartItems)
 
   const round2 = (num) => Math.round(num * 100 + Number.EPSILON) / 100; // 123.2345 => 123.23
   cart.itemsPrice = round2(
@@ -46,7 +47,8 @@ export default function PlaceOrderScreen() {
   cart.shippingPrice = cart.itemsPrice > 100 ? round2(0) : round2(10);
   cart.taxPrice = round2(0.15 * cart.itemsPrice);
   cart.totalPrice = cart.itemsPrice + cart.shippingPrice + cart.taxPrice;
-
+const renew = cart.cartItems
+console.log(renew)
   let now = {
     user_id: userInfo._id,
   };
@@ -56,7 +58,7 @@ export default function PlaceOrderScreen() {
     // };
     setTimeout(() => {
       setOrderLoading(false);
-    }, 2000); // 2000 milliseconds = 2 seconds
+    }, 3000); // 2000 milliseconds = 2 seconds
     // };
     setOrderplaced(true);
     // const setLoadingTrue = () => {
@@ -143,14 +145,14 @@ export default function PlaceOrderScreen() {
           <Col md={8}>
             <Card className='mb-3'>
               <Card.Body>
-                <Card.Title>Shipping</Card.Title>
+                <Card.Title>Shipping Address</Card.Title>
                 <Card.Text>
                   <strong>Name:</strong> {cart.shippingAddress.fullName} <br />
                   <strong>Address: </strong> {cart.shippingAddress.address},
                   {cart.shippingAddress.city}, {cart.shippingAddress.postalCode}
                   ,{cart.shippingAddress.country}
                 </Card.Text>
-                <Link to='/shipping'>Edit</Link>
+                {/* <Link to='/shipping'>Edit</Link> */}
               </Card.Body>
             </Card>
 
@@ -158,7 +160,7 @@ export default function PlaceOrderScreen() {
               <Card.Body>
                 <Card.Title>Payment</Card.Title>
                 <Card.Text>
-                  <strong>Method:</strong> {cart.paymentMethod}
+                  <strong>Method:</strong> Card
                 </Card.Text>
                 {orderPlaced === true ? (
                   <MessageBox variant='success'>Order paid</MessageBox>
@@ -247,7 +249,10 @@ export default function PlaceOrderScreen() {
                       // <MessageBox variant='success'>
                       //   {/* Order Created for {state.userInfo.name}! */}
                       // </MessageBox>
-                      <p></p>
+                      <Link to='/orderhistory'>
+                   
+                        <Button>View Your Orders</Button>
+                    </Link>
                     ) : (
                       <div className='d-grid'>
                         <Button

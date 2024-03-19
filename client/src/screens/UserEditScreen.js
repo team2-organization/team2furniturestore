@@ -54,10 +54,11 @@ export default function UserEditScreen() {
         const { data } = await axios.get(`/db/users/${userId}`, {
           headers: { Authorization: `Bearer ${userInfo.token}` },
         });
-        setName(data.name);
-        setEmail(data.email);
-        setIsAdmin(data.isAdmin);
+        setName(data[0][0].name);
+        setEmail(data[0][0].email);
+        setIsAdmin(data[0][0].isAdmin);
         dispatch({ type: 'FETCH_SUCCESS' });
+        console.log(data[0])
       } catch (err) {
         dispatch({
           type: 'FETCH_FAIL',
@@ -67,7 +68,6 @@ export default function UserEditScreen() {
     };
     fetchData();
   }, [userId, userInfo]);
-
   const submitHandler = async (e) => {
     e.preventDefault();
     try {
@@ -89,6 +89,7 @@ export default function UserEditScreen() {
       dispatch({ type: 'UPDATE_FAIL' });
     }
   };
+  console.log(isAdmin)
   return (
     <Container className="small-container">
       <Helmet>
@@ -105,7 +106,8 @@ export default function UserEditScreen() {
           <Form.Group className="mb-3" controlId="name">
             <Form.Label>Name</Form.Label>
             <Form.Control
-              value={name}
+              value={name } 
+              disabled
               onChange={(e) => setName(e.target.value)}
               required
             />
@@ -115,19 +117,32 @@ export default function UserEditScreen() {
             <Form.Control
               value={email}
               type="email"
+              disabled
               onChange={(e) => setEmail(e.target.value)}
               required
             />
           </Form.Group>
 
+     
+        {
+          isAdmin == "false" ? 
           <Form.Check
             className="mb-3"
             type="checkbox"
             id="isAdmin"
             label="isAdmin"
-            checked={isAdmin}
+            checked={false}
             onChange={(e) => setIsAdmin(e.target.checked)}
-          />
+          /> :   <Form.Check
+          className="mb-3"
+          type="checkbox"
+          id="isAdmin"
+          disabled
+          label="isAdmin"
+          checked="true"
+          onChange={(e) => setIsAdmin(e.target.checked)}
+        /> 
+        }
 
           <div className="mb-3">
             <Button disabled={loadingUpdate} type="submit">
