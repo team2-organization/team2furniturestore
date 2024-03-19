@@ -37,11 +37,11 @@ const reducer = (state, action) => {
       return state;
   }
 };
-export default function OrderListScreen() {
+export default function RefundListScreen() {
   const navigate = useNavigate();
   const { state } = useContext(Store);
   const { userInfo } = state;
-  const [{ loading, error, orders, loadingDelete, successDelete }, dispatch] =
+  const [{ loading, error, orders, loadingDelete, successDelete, refunds }, dispatch] =
     useReducer(reducer, {
       loading: true,
       error: '',
@@ -51,9 +51,10 @@ export default function OrderListScreen() {
     const fetchData = async () => {
       try {
         dispatch({ type: 'FETCH_REQUEST' });
-        const { data } = await axios.get(`/db/orders`, {
+        const { data } = await axios.get(`/db/orders/refunds`, {
           headers: { Authorization: `Bearer ${userInfo.token}` },
         });
+        console.log(data)
         dispatch({ type: 'FETCH_SUCCESS', payload: data });
       } catch (err) {
         dispatch({
@@ -90,9 +91,9 @@ export default function OrderListScreen() {
   return (
     <div>
       <Helmet>
-        <title>Orders</title>
+        <title>Refunds</title>
       </Helmet>
-      <h1>Orders</h1>
+      <h1>Refunds</h1>
       {loadingDelete && <LoadingBox></LoadingBox>}
       {loading ? (
         <LoadingBox></LoadingBox>
@@ -102,43 +103,37 @@ export default function OrderListScreen() {
         <table className='table'>
           <thead>
             <tr>
-              <th>ID</th>
+              
               <th>USER</th>
-              <th>DATE</th>
-              <th>TOTAL</th>
+              {/* <th>DATE</th> */}
+              <th>OrderID</th>
               <th>PAID</th>
               <th>DELIVERED</th>
-
+              <th>ACTIONS</th>
             </tr>
           </thead>
           <tbody>
             {orders.map((order) => (
               <tr key={order._id}>
-                <td>{order._id}</td>
-                <td>{order.user_name ? order.user_name : 'DELETED USER'}</td>
-                <td>{order.createdAt}</td>
-                <td>{order.totalPrice}</td>
-                <td>{order.isPaid === 'false' ? 'Yes' : 'No'}</td>
+                <td>{order.username}</td>
+                <td>{order.order_id}</td>
+                {/* <td>{order.createdAt}</td> */}
+                {/* <td>{order.totalPrice}</td> */}
+                <td>Yes</td>
 
                 <td>{order.isDelivered === 'false' ? 'Shipping...' : 'No'}</td>
                 <td>
-                  {/* <Button
+                  <Button
                     type='button'
                     variant='light'
                     onClick={() => {
-                      navigate(`/order/${order._id}`);
+                      navigate(`/refund/${order._id}`);
                     }}
                   >
                     Details
-                  </Button> */}
+                  </Button>
                   &nbsp;
-                  {/* <Button style={{"backgroundColor":"rgb(185, 56, 14)", "color": "white"}}
-                    type='button'
-                    variant='light'
-                    onClick={() => deleteHandler(order)}
-                  >
-                    Cancel & Refund
-                  </Button> */}
+                 {/* null */}
                 </td>
               </tr>
             ))}

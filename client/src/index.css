@@ -14,6 +14,17 @@ body {
 main {
   flex: 1;
 }
+.notes {
+  margin-bottom: .5rem;
+  width: 95%;
+  min-height: 6rem;
+  align-self: center;
+  border: 1px solid grey;
+  /* padding: ; */
+  outline: none;
+  max-height: 6rem;
+  border-radius: 0.5rem;
+}
 .flat {
   display: flex;
   justify-content: center;
@@ -22,6 +33,12 @@ main {
 .light {
   font-weight: 200;
 }
+.approve {
+  display: flex;
+  justify-content: space-evenly;
+
+}
+
 .low {
   /* margin-left: 60%; */
   margin-top: 5%;
@@ -62,9 +79,22 @@ main {
   margin-left:3%;
   margin-top: 5%;
 }
+
+button
 .form-container label {
   display: block;
   margin-bottom: 5px;
+}
+.balance {
+  display: flex;
+  justify-content: fl;
+  align-items: center;
+}
+.larger {
+justify-content: flex-start;
+align-items: flex-start;
+align-self: flex-start;
+width: 23rem;
 }
 .accepted {
   margin-top: 5%;
