@@ -6,16 +6,6 @@ import { useNavigate } from 'react-router-dom';
 import { Store } from '../Store';
 import CheckoutSteps from '../components/CheckoutSteps';
 
-import { useRef } from "react";
-import emailjs from "@emailjs/browser";
-
-import { Link,} from "react-router-dom";
-import { GrSecure } from "react-icons/gr";
-import { usePaymentInputs } from "react-payment-inputs";
-
-
-
-
 
 export default function ShippingAddressScreen() {
   const navigate = useNavigate();
