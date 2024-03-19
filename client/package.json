@@ -3,7 +3,6 @@
   "version": "0.1.0",
   "private": true,
   "dependencies": {
-    "@emailjs/browser": "^4.3.3",
     "@paypal/react-paypal-js": "^7.8.2",
     "@react-google-maps/api": "^2.17.1",
     "@testing-library/jest-dom": "^5.16.5",
@@ -18,13 +17,10 @@
     "react-google-charts": "^4.0.0",
     "react-helmet-async": "^1.3.0",
     "react-icons": "^5.0.1",
-    "react-payment-card-component": "^0.2.1",
-    "react-payment-inputs": "^1.1.9",
     "react-router-bootstrap": "^0.26.2",
     "react-router-dom": "^6.6.1",
     "react-scripts": "5.0.1",
     "react-toastify": "^9.1.1",
-    "styled-components": "^6.1.8",
     "web-vitals": "^3.1.0"
   },
   "scripts": {

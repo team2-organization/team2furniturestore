@@ -5,11 +5,6 @@ import Form from 'react-bootstrap/Form';
 import Button from 'react-bootstrap/Button';
 import CheckoutSteps from '../components/CheckoutSteps';
 import { Store } from '../Store';
-import PaymentCard from 'react-payment-card-component'
-import CardPaymentForm from '../components/CardInfo';
-// import accepted from "../images"
-
-
 
 
 
