@@ -5,6 +5,13 @@ import Form from 'react-bootstrap/Form';
 import Button from 'react-bootstrap/Button';
 import CheckoutSteps from '../components/CheckoutSteps';
 import { Store } from '../Store';
+import PaymentCard from 'react-payment-card-component'
+import CardPaymentForm from '../components/CardInfo';
+// import accepted from "../images"
+
+
+
+
 
 export default function PaymentMethodScreen() {
   const navigate = useNavigate();
@@ -12,11 +19,42 @@ export default function PaymentMethodScreen() {
   const {
     cart: { shippingAddress, paymentMethod },
   } = state;
+  
 
   const [paymentMethodName, setPaymentMethod] = useState(
     paymentMethod || 'PayPal'
   );
 
+
+
+   const [cardNumber, setCardNumber] = useState('');
+  const [cardName, setCardName] = useState('');
+  const [expiry, setExpiry] = useState('');
+  const [cvv, setCvv] = useState('');
+  const [missing, setMissing] = useState(false)
+
+  const handleCardNumberChange = (e) => {
+    setCardNumber(e.target.value);
+  };
+
+  const handleCardNameChange = (e) => {
+    setCardName(e.target.value);
+  };
+
+  const handleExpiryChange = (e) => {
+    setExpiry(e.target.value);
+  };
+
+  const handleCvvChange = (e) => {
+    setCvv(e.target.value);
+  };
+
+  const handleSubmit = (e) => {
+    e.preventDefault();
+    // Handle form submission
+  };
+
+  
   useEffect(() => {
     if (!shippingAddress.address) {
       navigate('/shipping');
@@ -26,6 +64,10 @@ export default function PaymentMethodScreen() {
     e.preventDefault();
     ctxDispatch({ type: 'SAVE_PAYMENT_METHOD', payload: paymentMethodName });
     localStorage.setItem('paymentMethod', paymentMethodName);
+    if(!cardNumber || !cardName || !expiry || !cvv) {
+      setMissing(true)
+      return;
+    }
     navigate('/placeorder');
   };
   return (
@@ -41,13 +83,24 @@ export default function PaymentMethodScreen() {
             <Form.Check
               type="radio"
               id="PayPal"
-              label="PayPal"
+              label="Card"
               value="PayPal"
               checked={paymentMethodName === 'PayPal'}
               onChange={(e) => setPaymentMethod(e.target.value)}
             />
           </div>
-          <div className="mb-3">
+          {/* <PaymentCard
+      bank="itau"
+      model="personnalite"
+      type="black"
+      brand="mastercard"
+      number="4111111111111111"
+      cvv="202"
+      holderName="Owen Lars"
+      expiration="12/20"
+      flipped={false}
+    /> */}
+          {/* <div className="mb-3">
             <Form.Check
               type="radio"
               id="Stripe"
@@ -56,9 +109,32 @@ export default function PaymentMethodScreen() {
               checked={paymentMethodName === 'Stripe'}
               onChange={(e) => setPaymentMethod(e.target.value)}
             />
-          </div>
+          </div> */}
           <div className="mb-3">
-            <Button type="submit">Continue</Button>
+
+
+{/* <CardPaymentForm/> */}
+<form className="form-container" onSubmit={handleSubmit}>
+      <div>
+        <label>Card Number:</label>
+        <input type="number" required  value={cardNumber} onChange={handleCardNumberChange} />
+      </div>
+      <div>
+        <label>Name on Card:</label>
+        <input required type="text" value={cardName} onChange={handleCardNameChange} />
+      </div>
+      <div>
+        <label>Expiry Date:</label>
+        <input required className='inp' placeholder='MM/YY' type="number" value={expiry} onChange={handleExpiryChange} />
+      </div>
+      <div>
+        <label>CVV:</label>
+        <input required className='inp' placeholder='CVV' type="number" value={cvv} onChange={handleCvvChange} />
+      </div>
+
+    </form>
+            <Button className='orderbtn' type="submit">Continue</Button>
+           <img className='accepted' src='https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRZa9stluxuArfKQHtToXyOJoDSyNgmHsLOrA&usqp=CAU'/>
           </div>
         </Form>
       </div>

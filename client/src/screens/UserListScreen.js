@@ -122,21 +122,31 @@ export default function UserListScreen() {
                 <td>{user.email}</td>
                 <td>{user.isAdmin === 'true' ? 'YES' : 'NO'}</td>
                 <td>
-                  <Button
-                    type='button'
-                    variant='light'
-                    onClick={() => navigate(`/admin/user/${user._id}`)}
-                  >
-                    Edit
-                  </Button>
-                  &nbsp;
-                  <Button
-                    type='button'
-                    variant='light'
-                    onClick={() => deleteHandler(user)}
-                  >
-                    Delete
-                  </Button>
+                {user.isAdmin === "false" ? (
+  <>
+    <Button
+      type='button'
+      variant='light'
+      onClick={() => navigate(`/admin/user/${user._id}`)}
+    >
+      Make Admin
+    </Button>
+    &nbsp;
+    <Button
+      type='button'
+      variant='light'
+      onClick={() => deleteHandler(user)}
+    >
+      Delete
+    </Button>
+  </>
+) :  <Button
+type='button'
+variant='light'
+onClick={() => navigate(`/admin/user/${user._id}`)}
+>
+View
+</Button>}
                 </td>
               </tr>
             ))}

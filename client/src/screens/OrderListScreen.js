@@ -132,12 +132,12 @@ export default function OrderListScreen() {
                     Details
                   </Button>
                   &nbsp;
-                  <Button
+                  <Button style={{"backgroundColor":"rgb(185, 56, 14)", "color": "white"}}
                     type='button'
                     variant='light'
                     onClick={() => deleteHandler(order)}
                   >
-                    Delete
+                    Cancel & Refund
                   </Button>
                 </td>
               </tr>

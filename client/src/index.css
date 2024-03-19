@@ -47,6 +47,58 @@ main {
 .btnred {
   background-color: rgb(185, 56, 14);
 }
+.form-container {
+  width: 90%;
+  margin: 0 auto;
+  margin-right: 50%;
+  margin-top: 10%;
+  padding: 20px;
+  border: 1px solid #ccc;
+  border-radius: 5px;
+  margin-left:3%;
+}
+.orderbtn {
+  width: 90%;
+  margin-left:3%;
+  margin-top: 5%;
+}
+.form-container label {
+  display: block;
+  margin-bottom: 5px;
+}
+.accepted {
+  margin-top: 5%;
+  width: 90%;
+  margin-left:3%;
+}
+
+.form-container input {
+  width: 100%;
+  padding: 4px;
+  margin-bottom: 15px;
+  border: 1px solid #ccc;
+  border-radius: 5px;
+}
+.inp{
+ font-style: italic;
+}
+
+
+.form-container button {
+  width: 100%;
+  padding: 10px;
+  background-color: #007bff;
+  color: #fff;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+
+}
+
+.form-container button:hover {
+  background-color: #0056b3;
+}
+
 .navstyle {
   background-color: rgb(185, 56, 14);
   color: azure;
