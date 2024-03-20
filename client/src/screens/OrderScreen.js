@@ -255,7 +255,6 @@ const [optionsCheck, setOptionsCheck] = useState("")
       return;
     }
  
-    window.location.reload();
     
     const { order } = await Axios.post(
       '/db/orders/refund',
@@ -276,6 +275,8 @@ const [optionsCheck, setOptionsCheck] = useState("")
       );
       // console.log(orderId)
       setRefundNote("")
+    window.location.reload();
+
     
   }
 
