@@ -49,6 +49,7 @@ function App() {
   // axios.defaults.baseURL = 'http://localhost:4000/';
   axios.defaults.baseURL = 'https://team2furniturestore.onrender.com/';
 
+
   const signoutHandler = () => {
     ctxDispatch({ type: 'USER_SIGNOUT' });
     localStorage.removeItem('userInfo');
@@ -76,6 +77,7 @@ function App() {
   //   userInfo.isAdmin = false
   // }
 
+ 
   return (
     <BrowserRouter>
       <div
@@ -163,7 +165,7 @@ function App() {
                         <NavDropdown.Item>Users</NavDropdown.Item>
                       </LinkContainer>
                       <LinkContainer to='/admin/refunds'>
-                        <NavDropdown.Item>Refunds Requests</NavDropdown.Item>
+                        <NavDropdown.Item>Refund Requests</NavDropdown.Item>
                       </LinkContainer>
                     </NavDropdown>
                   )}

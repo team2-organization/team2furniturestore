@@ -132,6 +132,61 @@ const [refundNote, setRefundNote] = useState("")
 
 
 
+
+
+
+  const approveRef = async (e) => {
+    e.preventDefault();
+    try {
+      dispatch({ type: 'UPDATE_REQUEST' });
+      await axios.post(
+        `/db/orders/refunds/decison/${note._id}`,
+        {
+          deci: "true",
+         
+        },
+        {
+          headers: { Authorization: `Bearer ${userInfo.token}` },
+        }
+      );
+      dispatch({
+        type: 'UPDATE_SUCCESS',
+      });
+      toast.success('Refund Decison Sent');
+      navigate('/admin/refunds');
+    } catch (err) {
+      toast.error(getError(err));
+      dispatch({ type: 'UPDATE_FAIL' });
+    }
+  };
+
+  const denyRef = async (e) => {
+    e.preventDefault();
+    try {
+      dispatch({ type: 'UPDATE_REQUEST' });
+      await axios.post(
+        `/db/orders/refunds/nodecison/${note._id}`,
+        {
+          deci: "false",
+         
+        },
+        {
+          headers: { Authorization: `Bearer ${userInfo.token}` },
+        }
+      );
+      dispatch({
+        type: 'UPDATE_SUCCESS',
+      });
+      toast.success('Refund Decison Sent');
+      navigate('/admin/refunds');
+    } catch (err) {
+      toast.error(getError(err));
+      dispatch({ type: 'UPDATE_FAIL' });
+    }
+  };
+
+
+
    useEffect(() => {
     const fetchData = async () => {
       try {
@@ -230,7 +285,7 @@ const [refundNote, setRefundNote] = useState("")
   
                
                 {data && data._id && ( // Check if data and data._id are not null
-        <p className='my-3'>{note}</p>
+        <p className='my-3'>{note.refundnote}</p>
       )}
              
             </Card.Body>):null
@@ -240,10 +295,10 @@ const [refundNote, setRefundNote] = useState("")
 
 <div className='approve'>
     
-<Button style={{"backgroundColor": "red"}} >
+<Button onClick={denyRef} style={{"backgroundColor": "red"}} >
             Deny Refund
           </Button>
-          <Button style={{"backgroundColor": "green"}} >
+          <Button onClick={approveRef} style={{"backgroundColor": "green"}} >
 Approve Refund
           </Button>
    

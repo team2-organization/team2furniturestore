@@ -15,6 +15,7 @@ import MessageBox from '../components/MessageBox';
 import { Store } from '../Store';
 import { getError } from '../utils';
 import { toast } from 'react-toastify';
+import { MdFullscreen } from 'react-icons/md';
 
 function reducer(state, action) {
   switch (action.type) {
@@ -52,6 +53,7 @@ function reducer(state, action) {
 export default function OrderScreen() {
   const { state } = useContext(Store);
   const { userInfo } = state;
+  
 
   const params = useParams();
   const { id: orderId } = params;
@@ -79,7 +81,7 @@ export default function OrderScreen() {
   const [paymentColor, setPaymentColor] = useState('danger');
 const [refundNote, setRefundNote] = useState("")
   const [{ isPending }, paypalDispatch] = usePayPalScriptReducer();
-
+const [optionsCheck, setOptionsCheck] = useState("")
   function createOrder(data, actions) {
     return actions.order
       .create({
@@ -93,6 +95,29 @@ const [refundNote, setRefundNote] = useState("")
         return orderID;
       });
   }
+  const hide = optionsCheck.options ===null || optionsCheck.refundnote != null ? "hidden" : "mb-3"
+
+  useEffect(() => {
+   
+    const fetchData = async () => {
+      try {
+        dispatch({ type: 'FETCH_REQUEST' });
+        const { data } = await axios.get(`/db/orders/refunds/options/${orderId}`, {
+          headers: { Authorization: `Bearer ${userInfo.token}` },
+        });
+
+        setOptionsCheck(data); // Update data state with fetched data
+        // dispatch({ type: 'FETCH_SUCCESS', payload: data });
+      } catch (err) {
+        dispatch({
+          type: 'FETCH_FAIL',
+          payload: getError(err),
+        });
+      }
+    };
+    fetchData();
+  }, []);
+
 
   function onApprove(data, actions) {
     return actions.order.capture().then(async function (details) {
@@ -186,6 +211,7 @@ const [refundNote, setRefundNote] = useState("")
     []
   );
 
+
   async function deliverOrderHandler() {
     try {
       dispatch({ type: 'DELIVER_REQUEST' });
@@ -224,10 +250,12 @@ const [refundNote, setRefundNote] = useState("")
   // console.log(refundNote)
   const handleRefund = async () => {
     if(refundNote === "") {
+      // setOptionsCheck("")
       alert("You must leave a refund note")
       return;
     }
-    alert("Continue to refund?")
+ 
+    window.location.reload();
     
     const { order } = await Axios.post(
       '/db/orders/refund',
@@ -250,6 +278,8 @@ const [refundNote, setRefundNote] = useState("")
       setRefundNote("")
     
   }
+
+  // console.log(optionsCheck)
   return loading ? (
     <LoadingBox></LoadingBox>
   ) : error ? (
@@ -277,20 +307,104 @@ const [refundNote, setRefundNote] = useState("")
           </Card>
           <Card className='mb-3'>
             <Card.Body>
-              <Card.Title>Payment</Card.Title>
+              <Card.Title>Refund status</Card.Title>
               <Card.Text>
                 <strong>Method:</strong> Credit Card
               </Card.Text>
               {order.isPaid ? (
-                <MessageBox variant='success'>
+                // <MessageBox variant='success'>
+                <span>
+
+
                   Paid on {change(order.createdAt)}
-                </MessageBox>
+                </span>
+                // </MessageBox>
               ) : (
                 <MessageBox variant='success'> Paid</MessageBox>
               )}
             </Card.Body>
           </Card>
-          <Card className='mb-3'>
+
+ {
+
+optionsCheck.options === null ? (
+
+  <Card className='mb-3'>
+    <Card.Body>
+      <Card.Title>Refund Decision</Card.Title>
+      <Card.Text>
+        <strong>Status</strong> 
+      </Card.Text>
+  
+        <MessageBox >
+          pending...
+        </MessageBox>
+  
+  
+  
+    </Card.Body>
+  </Card>
+  ): (
+    
+  null
+  )
+  
+
+ }
+  {
+
+optionsCheck.options === "true" ? (
+
+  <Card className='mb-3'>
+    <Card.Body>
+      <Card.Title>Refund Decision</Card.Title>
+      <Card.Text>
+        <strong>Status</strong> 
+      </Card.Text>
+  
+        <MessageBox variant='success'>
+          Approved
+        </MessageBox>
+  
+  
+  
+    </Card.Body>
+  </Card>
+  ): (
+    
+  null
+  )
+  
+
+ }
+  {
+
+optionsCheck.options === "false" ? (
+
+  <Card className='mb-3'>
+    <Card.Body>
+      <Card.Title>Refund Decision</Card.Title>
+      <Card.Text>
+        <strong>Status</strong> 
+      </Card.Text>
+  
+        <MessageBox variant='danger'>
+         Denied
+        </MessageBox>
+  
+  
+  
+    </Card.Body>
+  </Card>
+  ): (
+    
+  null
+  )
+  
+
+ }
+      
+        <Card aria-disabled className={hide}>
             <Card.Body>
 
               <Card.Title>Refund</Card.Title>
@@ -303,9 +417,9 @@ const [refundNote, setRefundNote] = useState("")
               ) : (
                 <MessageBox variant={paymentColor}>{paymentStatus}</MessageBox>
               )}
+              
             </Card.Body>
           </Card>
-
           <Card className='mb-3'>
             <Card.Body>
               <Card.Title>Items</Card.Title>

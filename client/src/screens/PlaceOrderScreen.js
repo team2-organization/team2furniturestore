@@ -48,7 +48,7 @@ export default function PlaceOrderScreen() {
   cart.taxPrice = round2(0.15 * cart.itemsPrice);
   cart.totalPrice = cart.itemsPrice + cart.shippingPrice + cart.taxPrice;
 const renew = cart.cartItems
-console.log(renew)
+
   let now = {
     user_id: userInfo._id,
   };
