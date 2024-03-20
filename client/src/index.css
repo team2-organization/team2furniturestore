@@ -25,6 +25,9 @@ main {
   max-height: 6rem;
   border-radius: 0.5rem;
 }
+.hidden {
+  display: none;
+}
 .flat {
   display: flex;
   justify-content: center;
