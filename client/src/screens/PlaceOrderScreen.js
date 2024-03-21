@@ -283,6 +283,9 @@ const renew = cart.cartItems
             <Link to='/orderhistory'>
             <Button  className='larger'
               type='button'
+              // onClick={() => {
+              //   navigate(`/order/${order._id}`);
+              // }}
               // onClick={placeOrderHandler}
               // disabled={cart.cartItems.length === 0}
             >

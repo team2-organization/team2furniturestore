@@ -84,6 +84,7 @@ export default function PaymentMethodScreen() {
               onChange={(e) => setPaymentMethod(e.target.value)}
             />
           </div>
+          
           {/* <PaymentCard
       bank="itau"
       model="personnalite"
@@ -107,9 +108,13 @@ export default function PaymentMethodScreen() {
           </div> */}
           <div className="mb-3">
 
+{
 
+<p style={{"color":"red"}}>All fields are required! Card Number, Expiry date and CVV Must be numbers  </p>
+}
 {/* <CardPaymentForm/> */}
 <form className="form-container" onSubmit={handleSubmit}>
+  
       <div>
         <label>Card Number:</label>
         <input type="number" required  value={cardNumber} onChange={handleCardNumberChange} />
@@ -120,11 +125,11 @@ export default function PaymentMethodScreen() {
       </div>
       <div>
         <label>Expiry Date:</label>
-        <input required className='inp' placeholder='MM/YY' type="number" value={expiry} onChange={handleExpiryChange} />
+        <input required className='inp' placeholder='MM/YY'  value={expiry} onChange={handleExpiryChange} />
       </div>
       <div>
         <label>CVV:</label>
-        <input required className='inp' placeholder='CVV' type="number" value={cvv} onChange={handleCvvChange} />
+        <input required className='inp ' maxlength="3" placeholder='CVV' type="number" value={cvv} onChange={handleCvvChange} />
       </div>
 
     </form>

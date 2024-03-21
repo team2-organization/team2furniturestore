@@ -114,6 +114,9 @@ export default function ProductListScreen() {
     }
   };
 
+  const reversedData = products ? products.slice().reverse() : [];
+
+
   return (
     <div>
       <Row>
@@ -157,7 +160,7 @@ export default function ProductListScreen() {
               </tr>
             </thead>
             <tbody>
-              {products.map((product) => (
+              {reversedData.map((product) => (
                 <tr key={product._id}>
                   <td>{product._id}</td>
                   <td>{product.name}</td>
