@@ -89,7 +89,7 @@ export default function UserEditScreen() {
       dispatch({ type: 'UPDATE_FAIL' });
     }
   };
-  console.log(isAdmin)
+
   return (
     <Container className="small-container">
       <Helmet>
@@ -143,6 +143,7 @@ export default function UserEditScreen() {
           onChange={(e) => setIsAdmin(e.target.checked)}
         /> 
         }
+{
 
           <div className="mb-3">
             <Button disabled={loadingUpdate} type="submit">
@@ -150,6 +151,7 @@ export default function UserEditScreen() {
             </Button>
             {loadingUpdate && <LoadingBox></LoadingBox>}
           </div>
+}
         </Form>
       )}
     </Container>

@@ -51,6 +51,8 @@ export default function OrderHistoryScreen() {
     };
     fetchData();
   }, [userInfo]);
+  const reversedData = orders ? orders.slice().reverse() : [];
+
   return (
     <div>
       <Helmet>
@@ -75,11 +77,11 @@ export default function OrderHistoryScreen() {
             </tr>
           </thead>
           <tbody>
-            {orders.map((order) => (
+            {reversedData.map((order) => (
               <tr key={order._id}>
                 <td>{order._id}</td>
                 <td>{order.createdAt}</td>
-                <td>{order.totalPrice}</td>
+                <td>${order.totalPrice}</td>
                 <td>Yes</td>
                 <td>{order.isDelivered === "false" ? "Shipping ..." : "No"}</td>
                 <td>

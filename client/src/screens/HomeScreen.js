@@ -42,6 +42,10 @@ function HomeScreen() {
     };
     fetchData();
   }, []);
+  
+
+
+  const reversedData = products ? products.slice().reverse():[];
   return (
     <div>
       <Helmet>
@@ -55,7 +59,7 @@ function HomeScreen() {
           <MessageBox variant='danger'>{error}</MessageBox>
         ) : (
           <Row>
-            {products.map((product) => (
+            {reversedData.map((product) => (
               <Col key={product.slug} sm={6} md={4} lg={3} className='mb-3'>
                 <Product product={product}></Product>
               </Col>
