@@ -262,6 +262,7 @@ const [optionsCheck, setOptionsCheck] = useState("")
         orderId:orderId,
         name:userInfo.name,
         note: refundNote,
+        email:userInfo.email,
 
 
 
