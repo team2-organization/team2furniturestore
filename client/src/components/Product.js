@@ -7,7 +7,7 @@ import Rating from './Rating';
 import { IoIosFlame } from 'react-icons/io';
 
 import axios from 'axios';
-import { useContext, useState } from 'react';
+import { useContext, useState, useEffect } from 'react';
 import { Store } from '../Store';
 
 function Product(props) {
@@ -19,11 +19,39 @@ function Product(props) {
     cart: { cartItems },
   } = state;
 
+
+
+  const postToCart = async() => {
+    try {
+        console.log(state)
+      
+    
+        const { cartThings } = await axios.post(
+          '/db/addtocart',
+          {
+            userId: state.cart.userInfo._id,
+            cartItems: state.cart.shippingAddress,
+          
+          },
+          {
+            headers: {
+              authorization: `Bearer ${state.userInfo.token}`,
+            },
+          }
+        );
+      
+    
+      } catch (err) {
+    
+      }
+    }
+
   const addToCartHandler = async (item) => {
+    postToCart()
     const existItem = cartItems.find((x) => x._id === product._id);
     const quantity = existItem ? existItem.quantity + 1 : 1;
     const { data } = await axios.get(`/db/products/id/${item._id}`);
-    console.log(data);
+
     if (data.countInStock < quantity) {
       window.alert('Sorry. Product is out of stock');
       return;
@@ -37,6 +65,12 @@ function Product(props) {
     });
   };
   
+
+  
+ 
+   
+
+
 
   return (
     <Card className='hover'>

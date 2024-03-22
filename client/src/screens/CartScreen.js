@@ -17,7 +17,7 @@ export default function CartScreen() {
   const {
     cart: { cartItems },
   } = state;
-  console.log(lowCount);
+
   const threshold = 10;
 
   const updateCartHandler = async (item, quantity, threshold) => {
@@ -30,7 +30,7 @@ export default function CartScreen() {
       setLowCount(true);
     }
     // }
-    console.log(item.quantity, item.countInStock);
+
 
     const { data } = await axios.get(`/db/products/id/${item._id}`);
     if (data.countInStock < quantity) {
@@ -54,6 +54,48 @@ export default function CartScreen() {
   const checkoutHandler = () => {
     navigate('/signin?redirect=/shipping');
   };
+
+
+  
+
+
+  // console.log(cartItems)
+
+    // console.log(state)
+
+    const postToCart = async() => {
+      try {
+      
+    
+        const { cartThings } = await axios.post(
+          '/db/addtocart',
+          {
+            userId: state.cart.userInfo._id,
+            cartItems: state.cart.shippingAddress,
+          
+          },
+          {
+            headers: {
+              authorization: `Bearer ${state.userInfo.token}`,
+            },
+          }
+        );
+      
+    
+      } catch (err) {
+    
+      }
+    }
+    // postToCart()
+
+
+
+
+
+
+
+
+
 
   return (
     <div>
