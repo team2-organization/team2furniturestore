@@ -365,7 +365,7 @@ optionsCheck.options === "true" ? (
       </Card.Text>
   
         <MessageBox variant='success'>
-          Approved
+          Approved by Admin <strong>{optionsCheck.admin}</strong>
         </MessageBox>
   
   
@@ -391,7 +391,7 @@ optionsCheck.options === "false" ? (
       </Card.Text>
   
         <MessageBox variant='danger'>
-         Denied
+         Denied by Admin <strong>{optionsCheck.admin}</strong>
         </MessageBox>
   
   

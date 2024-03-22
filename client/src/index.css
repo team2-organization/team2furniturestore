@@ -28,6 +28,14 @@ main {
 .hidden {
   display: none;
 }
+
+.tablee {
+width: 100vw;
+border: 1px solid red;
+padding: 2rem;
+margin-top: 20rem;
+
+}
 .flat {
   display: flex;
   justify-content: center;

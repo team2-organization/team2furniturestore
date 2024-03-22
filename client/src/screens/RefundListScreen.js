@@ -118,8 +118,7 @@ export default function RefundListScreen() {
               <tr key={order._id}>
                 <td>{order.username}</td>
                 <td>{order.order_id}</td>
-                {/* <td>{order.createdAt}</td> */}
-                {/* <td>{order.totalPrice}</td> */}
+        
                 <td>Yes</td>
 
                 <td>{order.isDelivered === 'false' ? 'Shipping...' : 'No'}</td>
