@@ -96,7 +96,14 @@ function Product(props) {
 
         <div className='flat'>
           {product.countInStock === 0 ? (
-            <Button variant='light' disabled>
+            <Button 
+            style={{
+              backgroundColor: 'rgb(185, 56, 14)',
+              color: 'white',
+              marginTop: '5%',
+            }}
+            
+            disabled>
               Out of stock
             </Button>
           ) : (
