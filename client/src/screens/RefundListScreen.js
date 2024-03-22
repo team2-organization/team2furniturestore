@@ -46,7 +46,7 @@ export default function RefundListScreen() {
       loading: true,
       error: '',
     });
-
+console.log(state)
   useEffect(() => {
     const fetchData = async () => {
       try {
@@ -54,7 +54,7 @@ export default function RefundListScreen() {
         const { data } = await axios.get(`/db/orders/refunds`, {
           headers: { Authorization: `Bearer ${userInfo.token}` },
         });
-        console.log(data)
+
         dispatch({ type: 'FETCH_SUCCESS', payload: data });
       } catch (err) {
         dispatch({
@@ -68,7 +68,7 @@ export default function RefundListScreen() {
     } else {
       fetchData();
     }
-  }, [userInfo, successDelete]);
+  }, [userInfo, state, successDelete]);
 
   const deleteHandler = async (order) => {
     if (window.confirm('Are you sure to delete?')) {

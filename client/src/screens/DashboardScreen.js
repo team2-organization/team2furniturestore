@@ -49,7 +49,7 @@ export default function DashboardScreen() {
     };
     fetchData();
   }, [userInfo]);
-  console.log(summary)
+
   const catChart = [
     {_id: "Bedroom", count: 45},
     {_id: "Dining", count: 25},

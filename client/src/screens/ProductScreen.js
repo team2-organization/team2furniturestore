@@ -69,7 +69,39 @@ function ProductScreen() {
 
   const { state, dispatch: ctxDispatch } = useContext(Store);
   const { cart, userInfo } = state;
+
+
+
+  const postToCart = async() => {
+    try {
+        console.log(state)
+      
+    
+        const { cartThings } = await axios.post(
+          '/db/addtocart',
+          {
+            userId: state.cart.userInfo._id,
+            cartItems: state.cart.shippingAddress,
+          
+          },
+          {
+            headers: {
+              authorization: `Bearer ${state.userInfo.token}`,
+            },
+          }
+        );
+      
+    
+      } catch (err) {
+    
+      }
+    }
+
+
+
+
   const addToCartHandler = async () => {
+    postToCart()
     const existItem = cart.cartItems.find((x) => x._id === product._id);
     const quantity = existItem ? existItem.quantity + 1 : 1;
     const { data } = await axios.get(`/db/products/id/${product._id}`);

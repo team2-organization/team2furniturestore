@@ -55,6 +55,7 @@ function App() {
     localStorage.removeItem('userInfo');
     localStorage.removeItem('shippingAddress');
     localStorage.removeItem('paymentMethod');
+    localStorage.removeItem('cartItems');
     window.location.href = '/signin';
   };
   const [sidebarIsOpen, setSidebarIsOpen] = useState(false);
@@ -189,7 +190,7 @@ function App() {
               <Nav.Item key={category}>
                 <LinkContainer
                   to={{ pathname: '/search', search: `category=${category}` }}
-                  onClick={() => setSidebarIsOpen(false)}
+                  // onClick={() => setSidebarIsOpen(false)}
                 >
                   <Nav.Link className='namestyle '>{category}</Nav.Link>
                 </LinkContainer>
