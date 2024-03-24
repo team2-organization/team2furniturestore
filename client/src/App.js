@@ -50,6 +50,7 @@ function App() {
   axios.defaults.baseURL = 'https://team2furniturestore.onrender.com/';
 
 
+  
   const signoutHandler = () => {
     ctxDispatch({ type: 'USER_SIGNOUT' });
     localStorage.removeItem('userInfo');
