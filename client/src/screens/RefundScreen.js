@@ -152,7 +152,7 @@ const [refundNote, setRefundNote] = useState("")
       dispatch({
         type: 'UPDATE_SUCCESS',
       });
-      toast.success('Refund Decison Sent');
+      toast.success('Refund Decision Sent');
       navigate('/admin/refunds');
     } catch (err) {
       toast.error(getError(err));
@@ -177,7 +177,7 @@ const [refundNote, setRefundNote] = useState("")
       dispatch({
         type: 'UPDATE_SUCCESS',
       });
-      toast.success('Refund Decison Sent');
+      toast.success('Refund Decision Sent');
       navigate('/admin/refunds');
     } catch (err) {
       toast.error(getError(err));
