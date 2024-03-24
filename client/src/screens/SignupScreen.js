@@ -23,23 +23,33 @@ export default function SignupScreen() {
   const { state, dispatch: ctxDispatch } = useContext(Store);
   const { userInfo } = state;
   const submitHandler = async (e) => {
+   
     e.preventDefault();
     if (password !== confirmPassword) {
       toast.error('Passwords do not match');
       return;
     }
+ 
+
     try {
       const { data } = await Axios.post('/db/users/signup', {
         name,
         email,
         password,
       });
-      ctxDispatch({ type: 'USER_SIGNIN', payload: data });
-      localStorage.setItem('userInfo', JSON.stringify(data));
-      navigate(redirect || '/');
+
+     
+    
+  if(data.errno === 1062) {
+    toast.error("User with that email aready exists")
+return;
+}
+navigate("/signin");
+toast.success('Account Created! Now sign in');
     } catch (err) {
       toast.error(getError(err));
     }
+
   };
 
   useEffect(() => {
