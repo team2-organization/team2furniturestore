@@ -71,12 +71,12 @@ export const ratings = [
   },
 ];
 
-export default function SearchScreen() {
+export default function BSearchScreen() {
   const navigate = useNavigate();
   const { search } = useLocation();
   const sp = new URLSearchParams(search); // /search?category=Shirts
   const category = sp.get('category') || 'all';
-
+  const brand = sp.get('brand') || 'all';
   
   const query = sp.get('query') || 'all';
   const price = sp.get('price') || 'all';
@@ -90,11 +90,12 @@ export default function SearchScreen() {
       error: '',
     });
 
+ 
   useEffect(() => {
     const fetchData = async () => {
       try {
         const { data } = await axios.get(
-          `/db/products/search?category=${category}`
+          `/db/products/bsearch?brand=${brand}`
         );
         dispatch({ type: 'FETCH_SUCCESS', payload: data });
       } catch (err) {
@@ -105,39 +106,27 @@ export default function SearchScreen() {
       }
     };
     fetchData();
-  }, [category, error]);
-  
-  // useEffect(() => {
-  //   const fetchData = async () => {
-  //     try {
-  //       const { data } = await axios.get(
-  //         `/db/products/rallratings?rating=${rating}`
-  //       );
-  //       dispatch({ type: 'FETCH_SUCCESS', payload: data });
-  //     } catch (err) {
-  //       dispatch({
-  //         type: 'FETCH_FAIL',
-  //         payload: getError(error),
-  //       });
-  //     }
-  //   };
-  //   fetchData();
-  // }, [rating, error]);
+  }, [brand, error]);
+//   useEffect(() => {
+//     const fetchData = async () => {
+//       try {
+//         const { data } = await axios.get(
+//           `/db/products/rallratings?rating=${rating}`
+//         );
+//         dispatch({ type: 'FETCH_SUCCESS', payload: data });
+//       } catch (err) {
+//         dispatch({
+//           type: 'FETCH_FAIL',
+//           payload: getError(error),
+//         });
+//       }
+//     };
+//     fetchData();
+//   }, [rating, error]);
 
   const [categories, setCategories] = useState([]);
  
-  useEffect(() => {
-    const fetchCategories = async () => {
-      try {
-        const { data } = await axios.get(`/db/products/categories`);
-        setCategories(data);
-      } catch (err) {
-        toast.error(getError(err));
-      }
-    };
-    fetchCategories();
-  }, [dispatch]);
-
+ 
 
   const getFilterUrl = (filter, skipPathname) => {
     const filterPage = filter.page || page;

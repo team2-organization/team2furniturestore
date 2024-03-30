@@ -11,6 +11,7 @@ body {
 .site-container {
   min-height: 100vh;
 }
+
 main {
   flex: 1;
 }
@@ -154,11 +155,18 @@ width: 23rem;
 .brown {
   color: rgb(185, 56, 14);
 }
+.changer {
+  color: rgb(185, 56, 14);
+
+}
 .btn-primary,
 .btn-outline-primary {
   background-color: rgb(185, 56, 14);
   /* color: #000000; */
   border: none;
+}
+.fixed {
+  position: fixed;
 }
 .products {
   display: flex;
@@ -207,7 +215,7 @@ width: 23rem;
 .side-navbar {
   width: 240px;
   height: 100%;
-  position: absolute;
+  position: fixed;
   left: -300px;
   background-color: rgba(185, 57, 14, 0.415);
   transition: 0.5s;

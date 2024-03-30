@@ -25,6 +25,8 @@ import { getError } from './utils';
 import axios from 'axios';
 import SearchBox from './components/SearchBox';
 import SearchScreen from './screens/SearchScreen';
+import Rating from './components/Rating';
+import BSearchScreen from './screens/BSearchScreen';
 import ProtectedRoute from './components/ProtectedRoute';
 import DashboardScreen from './screens/DashboardScreen';
 import AdminRoute from './components/AdminRoute';
@@ -61,6 +63,8 @@ function App() {
   };
   const [sidebarIsOpen, setSidebarIsOpen] = useState(false);
   const [categories, setCategories] = useState([]);
+  const [brands, setBrands] = useState([]);
+  const [rating, setRating] = useState([]);
 
   useEffect(() => {
     const fetchCategories = async () => {
@@ -73,12 +77,31 @@ function App() {
     };
     fetchCategories();
   }, []);
-  // if (userInfo.isAdmin === "true") {
-  //   userInfo.isAdmin = true
-  // } else {
-  //   userInfo.isAdmin = false
-  // }
-
+  useEffect(() => {
+    const fetchCategories = async () => {
+      try {
+        const { data } = await axios.get(`/db/products/brands`);
+        setBrands(data);
+ 
+      } catch (err) {
+        toast.error(getError(err));
+      }
+    };
+    fetchCategories();
+  }, []);
+ const starRatings = ["0 - 499","500 - 1499","1500 - 4999","5000 - 9999","10000 - 14999"]
+  // useEffect(() => {
+  //   const fetchCategories = async () => {
+  //     try {
+  //       const { data } = await axios.get(`/db/products/allratings`);
+  //       setBrands(data);
+ 
+  //     } catch (err) {
+  //       toast.error(getError(err));
+  //     }
+  //   };
+  //   fetchCategories();
+  // }, []);
  
   return (
     <BrowserRouter>
@@ -155,7 +178,7 @@ function App() {
                   {userInfo && userInfo.isAdmin === 'true' && (
                     <NavDropdown title='Admin' id='admin-nav-dropdown'>
                       <LinkContainer to='/admin/dashboard'>
-                        <NavDropdown.Item>Dashboard</NavDropdown.Item>
+                        <NavDropdown.Item>Reports</NavDropdown.Item>
                       </LinkContainer>
                       <LinkContainer to='/admin/products'>
                         <NavDropdown.Item>Products</NavDropdown.Item>
@@ -179,24 +202,77 @@ function App() {
         <div
           className={
             sidebarIsOpen
-              ? 'active-nav side-navbar d-flex justify-content-between flex-wrap flex-column'
+              ? 'active-nav side-navbar d-flex justify-content-between flex-wrap flex-column '
               : 'side-navbar d-flex justify-content-between flex-wrap flex-column'
           }
         >
           <Nav className=' flex-column text-white w-100 p-2'>
             <Nav.Item>
-              <strong>Categories</strong>
+              <strong style={{color: "black"}}>Categories</strong>
             </Nav.Item>
+            <div style={{ border: '2px solid rgb(185, 56, 14)', borderRadius: '10px', marginBottom: "1rem",  }}>   
+            
+            <div style={{ maxHeight: '200px', overflowY: 'auto' }}>
+  <Nav className="flex-column">
             {categories.map((category) => (
               <Nav.Item key={category}>
                 <LinkContainer
                   to={{ pathname: '/search', search: `category=${category}` }}
-                  // onClick={() => setSidebarIsOpen(false)}
+      
                 >
                   <Nav.Link className='namestyle '>{category}</Nav.Link>
                 </LinkContainer>
               </Nav.Item>
             ))}
+            
+            </Nav>
+</div>
+</div>
+
+            <Nav.Item>
+              <strong style={{color: "black"}}>Brands</strong>
+            </Nav.Item>
+            <div style={{ border: '2px solid rgb(185, 56, 14)', borderRadius: '10px', marginBottom: "1rem", }}>    
+<div style={{ maxHeight: '300px', overflowY: 'auto' }}>
+  <Nav className="flex-column">
+    {brands.map((brand) => (
+      <Nav.Item key={brand} style={{ width: '100%' }}>
+        <LinkContainer
+          to={{ pathname: '/bsearch', search: `brand=${brand}` }}
+          // onClick={() => setSidebarIsOpen(false)}
+        >
+          <Nav.Link className='namestyle'>{brand}</Nav.Link>
+        </LinkContainer>
+      </Nav.Item>
+    ))}
+  </Nav>
+</div>
+</div>
+
+{/* <Nav.Item>
+              <strong style={{color: "black"}}>Price</strong>
+            </Nav.Item> */}
+{/*         
+<div style={{ maxHeight: '300px', overflowY: 'auto' }}>
+  <Nav className="flex-column">
+    {starRatings.map((starRating) => (
+      <Nav.Item key={starRating} style={{ width: '100%' }}>
+        <LinkContainer
+          to={{ pathname: '/rsearch', search: `starRating=${starRating}` }}
+          // onClick={() => setSidebarIsOpen(false)}
+        >
+          <Nav.Link className='namestyle'>{starRating}</Nav.Link>
+        </LinkContainer>
+      </Nav.Item>
+    ))}
+  </Nav>
+</div>
+ */}
+
+ 
+ 
+ 
+
           </Nav>
         </div>
         <main>
@@ -205,6 +281,7 @@ function App() {
               <Route path='/product/:slug' element={<ProductScreen />} />
               <Route path='/cart' element={<CartScreen />} />
               <Route path='/search' element={<SearchScreen />} />
+              <Route path='/bsearch' element={<BSearchScreen />} />
               <Route path='/signin' element={<SigninScreen />} />
               <Route path='/signup' element={<SignupScreen />} />
               <Route
@@ -341,3 +418,6 @@ function App() {
 }
 
 export default App;
+
+
+
