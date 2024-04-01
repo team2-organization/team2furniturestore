@@ -291,9 +291,20 @@ const [optionsCheck, setOptionsCheck] = useState("")
       <Helmet>
         <title>Order {orderId}</title>
       </Helmet>
-      <h1 className='my-3'>Order {orderId}</h1>
+      <h1 className='my-3'>Order for {order.user_name} - Order No: {orderId} </h1>
       <Row>
         <Col md={8}>
+          <Card className='mb-3'>
+            <Card.Body>
+              <Card.Title>Summary</Card.Title>
+          <p> Total - <strong> ${order.totalPrice} </strong> </p> 
+          <p> items Price - <strong> ${order.itemsPrice} </strong> </p> 
+          <p> Tax - <strong>  ${order.taxPrice} </strong> </p> 
+          Order created on {change(order.createdAt)}
+
+             
+            </Card.Body>
+          </Card>
           <Card className='mb-3'>
             <Card.Body>
               <Card.Title>Shipping</Card.Title>
@@ -309,7 +320,8 @@ const [optionsCheck, setOptionsCheck] = useState("")
           </Card>
           <Card className='mb-3'>
             <Card.Body>
-              <Card.Title>Refund status</Card.Title>
+              <Card.Title>Payment</Card.Title>
+
               <Card.Text>
                 <strong>Method:</strong> Credit Card
               </Card.Text>
@@ -319,6 +331,7 @@ const [optionsCheck, setOptionsCheck] = useState("")
 
 
                   Paid on {change(order.createdAt)}
+
                 </span>
                 // </MessageBox>
               ) : (
@@ -409,7 +422,7 @@ optionsCheck.options === "false" ? (
         <Card aria-disabled className={hide}>
             <Card.Body>
 
-              <Card.Title>Refund</Card.Title>
+              <Card.Title>Request Refund</Card.Title>
             <textarea required placeholder='Leave a refund note' className='notes' value={refundNote}   onChange={(e) => setRefundNote(e.target.value)}/>
             
               {order.isDelivered ? (

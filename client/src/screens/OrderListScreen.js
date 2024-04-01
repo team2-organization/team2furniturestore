@@ -117,7 +117,7 @@ export default function OrderListScreen() {
                 <td>{order._id}</td>
                 <td>{order.user_name ? order.user_name : 'DELETED USER'}</td>
                 <td>{order.createdAt}</td>
-                <td>{order.totalPrice}</td>
+                <td>${order.totalPrice}</td>
                 <td>True</td>
 
                 <td>{order.isDelivered === 'false' ? 'Shipping...' : 'No'}</td>

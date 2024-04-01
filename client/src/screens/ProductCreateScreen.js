@@ -247,6 +247,8 @@ export default function ProductEditScreen() {
             <option value='Dining'>Dining</option>
             <option value='Outdoor'>Outdoor</option>
             <option value='Bedroom'>Bedroom</option>
+            <option value='Gardening'>Gardening</option>
+            <option value='Seasonal'>Seasonal</option>
           </Form.Select>
         </Form.Group>
 

@@ -73,6 +73,10 @@ margin-top: 20rem;
   font-size: 16px;
   font-weight: 200;
 }
+.smaller {
+  font-size: 16px;
+  font-weight: 200;
+}
 .btnred {
   background-color: rgb(185, 56, 14);
 }
@@ -144,6 +148,9 @@ width: 23rem;
 .navstyle {
   background-color: rgb(185, 56, 14);
   color: azure;
+  /* position: fixed;
+  width: 100vw;
+  z-index: 10; */
 }
 .white {
   color: azure;
@@ -164,6 +171,19 @@ width: 23rem;
   background-color: rgb(185, 56, 14);
   /* color: #000000; */
   border: none;
+}
+
+.floater{
+  font-size: 24px;
+  position:fixed;
+  right: 00;
+  /* left: 200; */
+  margin-right:.5rem;
+  margin-top:  -3.0rem;
+
+
+  z-index: 20;
+
 }
 .fixed {
   position: fixed;
