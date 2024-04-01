@@ -109,7 +109,7 @@ function App() {
         className={
           sidebarIsOpen
             ? fullBox
-              ? 'site-container active-cont d-flex flex-column full-box'
+              ? 'site-container active-cont d-flex flex-column'
               : 'site-container active-cont d-flex flex-column'
             : fullBox
             ? 'site-container  d-flex flex-column full-box'
@@ -199,6 +199,7 @@ function App() {
             </Container>
           </Navbar>
         </header>
+       
         <div
           className={
             sidebarIsOpen
@@ -276,6 +277,7 @@ function App() {
           </Nav>
         </div>
         <main>
+          
           <Container className='mt-3'>
             <Routes>
               <Route path='/product/:slug' element={<ProductScreen />} />
