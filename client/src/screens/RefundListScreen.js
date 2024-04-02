@@ -46,7 +46,7 @@ export default function RefundListScreen() {
       loading: true,
       error: '',
     });
-console.log(state)
+
   useEffect(() => {
     const fetchData = async () => {
       try {

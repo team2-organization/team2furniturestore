@@ -1,4 +1,4 @@
-import React, { useContext, useEffect, useReducer } from 'react';
+import React, { useContext, useEffect, useReducer, useState } from 'react';
 import Chart from 'react-google-charts';
 import axios from 'axios';
 import { Store } from '../Store';
@@ -7,6 +7,10 @@ import LoadingBox from '../components/LoadingBox';
 import MessageBox from '../components/MessageBox';
 import Row from 'react-bootstrap/Row';
 import Col from 'react-bootstrap/Col';
+import Button from 'react-bootstrap/Button';
+import Form from 'react-bootstrap/Form';
+
+
 import Card from 'react-bootstrap/Card';
 
 const reducer = (state, action) => {
@@ -49,7 +53,82 @@ export default function DashboardScreen() {
     };
     fetchData();
   }, [userInfo]);
+let usernamesArray = [];
+if(summary && summary.users  ) {
+ usernamesArray = summary.users.map(obj => obj.username);
 
+}
+
+const transformedArray = usernamesArray.map(username => ({
+  orders: [],
+  info: username
+}));
+
+
+const [firstSelection, setFirstSelection] = useState('');
+const [secondSelection, setSecondSelection] = useState('');
+const [thirdSelection, setThirdSelection] = useState('');
+const [fourthSelection, setFourthSelection] = useState('');
+
+
+const firstOptions = ['Sales / Transactions', 'Users', 'Refunds'];
+const secondOptions = {
+  'Sales / Transactions': ['Best Selling Category', 'Worst Selling Category', 'Best selling product', 'Worst selling product', 'Highest Transactions', 'Lowest Transactions'],
+  'Users': usernamesArray,
+  'Refunds': ['Approved', 'Denied']
+};
+// console.log(secondSelection)
+const thirdOptions = {
+  'Best Selling Category': ['All time','Today', 'Last week', 'Last month', 'Last Year'],
+  'Highest Transactions':  ['All time','Today', 'Last week', 'Last month', 'Last Year'],
+  'Lowest Transactions':  ['All time','Today', 'Last week', 'Last month', 'Last Year'],
+  'Worst Selling Category': ['All time','Today', 'Last week', 'Last month', 'Last Year'],
+  'Best selling product': ['All time','Today', 'Last week', 'Last month', 'Last Year'],
+  'Worst selling product': ['All time','Today', 'Last week', 'Last month', 'Last Year'],
+  secondSelection: transformedArray,
+  'Approved': ['Today', 'Last week', 'Last month', 'Last year'],
+  'Denied': ['Today', 'Last week', 'Last month', 'Last year']
+};
+const userOptions = ["All Orders", 'All Reviews', 'All Refund Requests', 'Highest transactions', 'Lowest Transactions']
+
+
+// console.log(thirdOptions[secondSelection])
+// console.log(secondSelection)
+// console.log(secondSelection)
+
+
+const handleFirstChange = (event) => {
+  const { value } = event.target;
+  setFirstSelection(value);
+  // Reset selections when first dropdown changes
+  setSecondSelection('');
+  setThirdSelection('');
+  setFourthSelection('');
+};
+
+// Event handler for second dropdown
+const handleSecondChange = (event) => {
+  const { value } = event.target;
+  setSecondSelection(value);
+  // Reset selections when second dropdown changes
+  setThirdSelection('');
+  setFourthSelection('');
+};
+
+// Event handler for third dropdown
+const handleThirdChange = (event) => {
+  const { value } = event.target;
+  setThirdSelection(value);
+
+  // Reset fourth selection when third dropdown changes
+  setFourthSelection('');
+};
+
+// Event handler for fourth dropdown
+const handleFourthChange = (event) => {
+  const { value } = event.target;
+  setFourthSelection(value);
+};
   const catChart = [
     {_id: "Bedroom", count: 45},
     {_id: "Dining", count: 25},
@@ -73,7 +152,7 @@ export default function DashboardScreen() {
                 <Card.Body>
                   <Card.Title>
                     {summary.users && summary.users[0]
-                      ? summary.users[0].numUsers
+                      ? summary.users.length
                       : 0}
                   </Card.Title>
                   <Card.Text> Users</Card.Text>
@@ -101,11 +180,120 @@ export default function DashboardScreen() {
                       ? summary.orders[0].totalSales.toFixed(2)
                       : 0}
                   </Card.Title>
-                  <Card.Text> Orders</Card.Text>
+                  <Card.Text> Total Sales</Card.Text>
                 </Card.Body>
               </Card>
             </Col>
           </Row>
+
+
+          <div className='my-3'>
+          <h2>Customize Report</h2>
+          <Form>
+              <Card>
+                <Card.Body>
+                  <Row>
+                  <Col>
+                  
+                  {/* <Card.Text> Users</Card.Text> */}
+                  {/* <Form> */}
+                  <Form.Group className='mb-3' controlId='category'>
+          <Form.Label>Criteria I</Form.Label>
+          <Form.Select
+            aria-label='Category'
+            value={firstSelection}
+            onChange={handleFirstChange}
+          >
+            <option value=''>Select...</option>
+            {firstOptions.map(option => (
+            <option key={option} value={option}>{option}</option>
+          ))}
+          </Form.Select>
+        </Form.Group>
+                  </Col>
+                  <Col>
+                  {firstSelection && (
+                  <Form.Group className='mb-3' controlId='category'>
+        
+          <Form.Label>Criteria II</Form.Label>
+          <Form.Select
+            aria-label='Category'
+            value={secondSelection}
+            onChange={handleSecondChange}
+          >
+            <option value=''>Select...</option>
+            {secondOptions[firstSelection].map(option => (
+            <option key={option} value={option}>{option}</option>
+          ))}
+          </Form.Select>
+      
+        </Form.Group>
+                  )}      
+               
+                  </Col>
+                
+
+                  <Col>
+                  {secondSelection && (
+                  <Form.Group className='mb-3' controlId='category'>
+        
+          <Form.Label>Criteria III</Form.Label>
+
+          {
+            firstSelection !== "Users" ? (
+
+          <Form.Select
+            aria-label='Category'
+            value={thirdSelection}
+            onChange={handleThirdChange}
+          >
+            <option value=''>Select...</option>
+            
+            {thirdOptions[secondSelection].map(option => (
+            <option key={option} value={option}>{option}</option>
+          ))}
+          </Form.Select>):(  <Form.Select
+            aria-label='Category'
+            value={thirdSelection}
+            onChange={handleThirdChange}
+          >
+            <option value=''>Select...</option>
+            
+            {userOptions.map(option => (
+            <option key={option} value={option}>{option}</option>
+          ))}
+          </Form.Select>)
+          }
+      
+        </Form.Group>
+                  )}      
+               
+               
+          </Col>   <Col>
+                  {thirdSelection && (
+                  <Form.Group className='mb-3' controlId='category'>
+        
+          <Form.Label>Go</Form.Label>
+          <div className="mb-3">
+            <Button type="submit">
+              Find
+            </Button>
+       
+          </div>  
+      
+        </Form.Group>
+
+
+// </Form>
+
+)}     
+            
+                  </Col>
+                  </Row>
+                </Card.Body>
+              </Card>
+              </Form>
+          </div>
           <div className='my-3'>
             <h2>Sales</h2>
             {summary.dailyOrders.length === 0 ? (
