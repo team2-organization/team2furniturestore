@@ -194,7 +194,7 @@ const [refundNote, setRefundNote] = useState("")
         const { data } = await axios.get(`/db/orders/refunds/${id.id}`, {
           headers: { Authorization: `Bearer ${userInfo.token}` },
         });
-        console.log(data);
+
         setData(data); // Update data state with fetched data
         // dispatch({ type: 'FETCH_SUCCESS', payload: data });
       } catch (err) {

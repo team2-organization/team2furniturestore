@@ -17,6 +17,7 @@ export default function SignupScreen() {
 
   const [name, setName] = useState('');
   const [email, setEmail] = useState('');
+  const [username, setUsername] = useState('');
   const [password, setPassword] = useState('');
   const [confirmPassword, setConfirmPassword] = useState('');
 
@@ -35,13 +36,14 @@ export default function SignupScreen() {
       const { data } = await Axios.post('/db/users/signup', {
         name,
         email,
+        username,
         password,
       });
 
      
-    
+
   if(data.errno === 1062) {
-    toast.error("User with that email aready exists")
+    toast.error("Email or username is aready taken. Try again")
 return;
 }
 navigate("/signin");
@@ -76,6 +78,14 @@ toast.success('Account Created! Now sign in');
             type="email"
             required
             onChange={(e) => setEmail(e.target.value)}
+          />
+        </Form.Group>
+        <Form.Group className="mb-3" controlId="email">
+          <Form.Label>Username</Form.Label>
+          <Form.Control
+           
+            required
+            onChange={(e) => setUsername(e.target.value)}
           />
         </Form.Group>
         <Form.Group className="mb-3" controlId="password">
