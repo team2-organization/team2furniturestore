@@ -23,7 +23,7 @@ function Product(props) {
 
   const postToCart = async() => {
     try {
-        console.log(state)
+
       
     
         const { cartThings } = await axios.post(

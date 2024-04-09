@@ -81,6 +81,7 @@ export default function ProfileScreen() {
             value={name}
             onChange={(e) => setName(e.target.value)}
             required
+            disabled
           />
         </Form.Group>
         <Form.Group className="mb-3" controlId="name">
@@ -88,6 +89,7 @@ export default function ProfileScreen() {
           <Form.Control
             type="email"
             value={email}
+            disabled
             onChange={(e) => setEmail(e.target.value)}
             required
           />

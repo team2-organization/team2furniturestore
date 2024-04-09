@@ -52,6 +52,39 @@ const renew = cart.cartItems
   let now = {
     user_id: userInfo._id,
   };
+
+
+
+
+  const takeToOrder = async () => {
+
+
+    try {
+
+
+      const {data} = await Axios.get(
+        '/db/orders/oneorder',
+       
+        {
+          headers: {
+            authorization: `Bearer ${userInfo.token}`,
+          },
+        }
+      );
+      
+      const orderId = data[0]._id
+   navigate(`/order/${orderId}`);
+    } catch (err) {
+      dispatch({ type: 'CREATE_FAIL' });
+
+    }
+  };
+
+
+
+
+
+
   const placeOrderHandler = async () => {
     setOrderLoading(true);
 
@@ -68,12 +101,12 @@ const renew = cart.cartItems
 
       state.cart.cartItems.push(now);
 
-      const { order } = await Axios.post(
+      const data = await Axios.post(
         '/db/orders',
         {
           orderItems: cart.cartItems,
           shippingAddress: cart.shippingAddress,
-          paymentMethod: cart.paymentMethod,
+          paymentMethod: "card",
           itemsPrice: cart.itemsPrice,
           shippingPrice: cart.shippingPrice,
           taxPrice: cart.taxPrice,
@@ -86,10 +119,11 @@ const renew = cart.cartItems
           },
         }
       );
+
       ctxDispatch({ type: 'CART_CLEAR' });
       // dispatch({ type: 'CREATE_SUCCESS' });
       localStorage.removeItem('cartItems');
-      navigate(`/order/${order._id}`);
+      // navigate(`/order/${order._id}`);
       // navigate(`/order/${order._id}`);
     } catch (err) {
       dispatch({ type: 'CREATE_FAIL' });
@@ -280,18 +314,19 @@ const renew = cart.cartItems
    orderPlaced === true ? 
           ( <div className='balance'>
             
-            <Link to='/orderhistory'>
+
             <Button  className='larger'
               type='button'
+             
               // onClick={() => {
               //   navigate(`/order/${order._id}`);
               // }}
-              // onClick={placeOrderHandler}
-              // disabled={cart.cartItems.length === 0}
+              onClick={takeToOrder}
+             
             >
               View Order Details
             </Button>
-            </Link>
+
           </div>):null
           }
          

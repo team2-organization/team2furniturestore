@@ -42,7 +42,7 @@ export default function SignupScreen() {
 
      
 
-  if(data.errno === 1062) {
+  if(data.error.errno === 1062) {
     toast.error("Email or username is aready taken. Try again")
 return;
 }

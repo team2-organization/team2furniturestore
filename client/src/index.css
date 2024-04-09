@@ -37,6 +37,14 @@ padding: 2rem;
 margin-top: 20rem;
 
 }
+.main-report{
+  /* background-color: rgba(185, 57, 14, 0.096); */
+  min-height: 90vh;
+  border-radius: 4px;
+  border:1px solid  rgb(185, 56, 14);
+  padding: 1rem;
+
+}
 .flat {
   display: flex;
   justify-content: center;
@@ -44,6 +52,27 @@ margin-top: 20rem;
 }
 .light {
   font-weight: 200;
+}
+.close-out-top {
+  position: relative;
+}
+.close-out{
+  cursor: pointer;
+
+
+font-size: 2rem;
+
+
+
+}
+.main-middle{
+  display: flex;
+  justify-content: space-around;
+
+}
+
+.rightt {
+
 }
 .approve {
   display: flex;

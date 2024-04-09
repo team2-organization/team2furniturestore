@@ -4,10 +4,14 @@ import axios from 'axios';
 import { Store } from '../Store';
 import { getError } from '../utils';
 import LoadingBox from '../components/LoadingBox';
+import { IoMdClose } from "react-icons/io";
+
 import MessageBox from '../components/MessageBox';
 import Row from 'react-bootstrap/Row';
 import Col from 'react-bootstrap/Col';
 import Button from 'react-bootstrap/Button';
+import { Link,  } from 'react-router-dom';
+import Reports from '../components/Reports';
 import Form from 'react-bootstrap/Form';
 
 
@@ -64,11 +68,11 @@ const transformedArray = usernamesArray.map(username => ({
   info: username
 }));
 
-
 const [firstSelection, setFirstSelection] = useState('');
 const [secondSelection, setSecondSelection] = useState('');
 const [thirdSelection, setThirdSelection] = useState('');
 const [fourthSelection, setFourthSelection] = useState('');
+const [showReport, setShowReport] = useState(false)
 
 
 const firstOptions = ['Sales / Transactions', 'Users', 'Refunds'];
@@ -137,199 +141,263 @@ const handleFourthChange = (event) => {
     {_id: "Outdoor", count: 6},
   ]
 
+
+  const submitHandler = async(e) => {
+        e.preventDefault();
+
+        try {
+          dispatch({ type: 'FETCH_REQUEST' });
+          const {data} = await axios.get(`/db/reports`, {
+            headers: { Authorization: `Bearer ${userInfo.token}` },
+          })
+          dispatch({ type: 'FETCH_SUCCESS', payload: data });
+
+          
+        } catch (err) {
+          dispatch({
+            type: 'FETCH_FAIL',
+            payload: getError(err),
+          });
+        }
+
+    
+      };
+
+
+
+
+
+      
   return (
-    <div>
-      <h1>Dashboard</h1>
-      {loading ? (
-        <LoadingBox />
-      ) : error ? (
-        <MessageBox variant='danger'>{error}</MessageBox>
-      ) : (
-        <>
-          <Row>
-            <Col md={4}>
-              <Card>
-                <Card.Body>
-                  <Card.Title>
-                    {summary.users && summary.users[0]
-                      ? summary.users.length
-                      : 0}
-                  </Card.Title>
-                  <Card.Text> Users</Card.Text>
-                </Card.Body>
-              </Card>
-            </Col>
-            <Col md={4}>
-              <Card>
-                <Card.Body>
-                  <Card.Title>
-                    {summary.orders && summary.orders[0]
-                      ? summary.orders[0].numOrders
-                      : 0}
-                  </Card.Title>
-                  <Card.Text> Orders</Card.Text>
-                </Card.Body>
-              </Card>
-            </Col>
-            <Col md={4}>
-              <Card>
-                <Card.Body>
-                  <Card.Title>
-                    $
-                    {summary.orders && summary.orders[0]
-                      ? summary.orders[0].totalSales.toFixed(2)
-                      : 0}
-                  </Card.Title>
-                  <Card.Text> Total Sales</Card.Text>
-                </Card.Body>
-              </Card>
-            </Col>
-          </Row>
 
+    <>
+    
+    { showReport === false ? 
 
-          <div className='my-3'>
-          <h2>Customize Report</h2>
-          <Form>
-              <Card>
-                <Card.Body>
-                  <Row>
-                  <Col>
-                  
-                  {/* <Card.Text> Users</Card.Text> */}
-                  {/* <Form> */}
-                  <Form.Group className='mb-3' controlId='category'>
-          <Form.Label>Criteria I</Form.Label>
-          <Form.Select
-            aria-label='Category'
-            value={firstSelection}
-            onChange={handleFirstChange}
-          >
-            <option value=''>Select...</option>
-            {firstOptions.map(option => (
-            <option key={option} value={option}>{option}</option>
-          ))}
-          </Form.Select>
-        </Form.Group>
-                  </Col>
-                  <Col>
-                  {firstSelection && (
-                  <Form.Group className='mb-3' controlId='category'>
-        
-          <Form.Label>Criteria II</Form.Label>
-          <Form.Select
-            aria-label='Category'
-            value={secondSelection}
-            onChange={handleSecondChange}
-          >
-            <option value=''>Select...</option>
-            {secondOptions[firstSelection].map(option => (
-            <option key={option} value={option}>{option}</option>
-          ))}
-          </Form.Select>
-      
-        </Form.Group>
-                  )}      
-               
-                  </Col>
-                
-
-                  <Col>
-                  {secondSelection && (
-                  <Form.Group className='mb-3' controlId='category'>
-        
-          <Form.Label>Criteria III</Form.Label>
-
-          {
-            firstSelection !== "Users" ? (
-
-          <Form.Select
-            aria-label='Category'
-            value={thirdSelection}
-            onChange={handleThirdChange}
-          >
-            <option value=''>Select...</option>
+(<div>
+  <h1>Dashboard</h1>
+  {loading ? (
+    <LoadingBox />
+  ) : error ? (
+    <MessageBox variant='danger'>{error}</MessageBox>
+  ) : (
+    <>
+      <Row>
+        <Col md={4}>
+          <Card>
+            <Card.Body>
+              <Card.Title>
+                {summary.users && summary.users[0]
+                  ? summary.users.length
+                  : 0}
+              </Card.Title>
+              <Card.Text> Users</Card.Text>
+            </Card.Body>
+          </Card>
+        </Col>
+        <Col md={4}>
+          <Card>
+            <Card.Body>
+              <Card.Title>
+                {summary.orders && summary.orders[0]
+                  ? summary.orders[0].numOrders
+                  : 0}
+              </Card.Title>
+              <Card.Text> Orders</Card.Text>
+            </Card.Body>
+          </Card>
+        </Col>
+        <Col md={4}>
+          <Card>
+            <Card.Body>
+              <Card.Title>
+                $
+                {summary.orders && summary.orders[0]
+                  ? summary.orders[0].totalSales.toFixed(2)
+                  : 0}
+              </Card.Title>
+              <Card.Text> Total Sales</Card.Text>
+            </Card.Body>
+          </Card>
+        </Col>
+      </Row>
+  
+  
+      <div className='my-3'>
+      <h2>Customize Report</h2>
+      <Form onSubmit={submitHandler} >
+          <Card>
+            <Card.Body>
+              <Row>
+              <Col>
+              
+              {/* <Card.Text> Users</Card.Text> */}
+              {/* <Form> */}
+              <Form.Group className='mb-3' controlId='category'>
+      <Form.Label>Criteria I</Form.Label>
+      <Form.Select
+        aria-label='Category'
+        value={firstSelection}
+        onChange={handleFirstChange}
+      >
+        <option value=''>Select...</option>
+        {firstOptions.map(option => (
+        <option key={option} value={option}>{option}</option>
+      ))}
+      </Form.Select>
+    </Form.Group>
+              </Col>
+              <Col>
+              {firstSelection && (
+              <Form.Group className='mb-3' controlId='category'>
+    
+      <Form.Label>Criteria II</Form.Label>
+      <Form.Select
+        aria-label='Category'
+        value={secondSelection}
+        onChange={handleSecondChange}
+      >
+        <option value=''>Select...</option>
+        {secondOptions[firstSelection].map(option => (
+        <option key={option} value={option}>{option}</option>
+      ))}
+      </Form.Select>
+  
+    </Form.Group>
+              )}      
+           
+              </Col>
             
-            {thirdOptions[secondSelection].map(option => (
-            <option key={option} value={option}>{option}</option>
-          ))}
-          </Form.Select>):(  <Form.Select
-            aria-label='Category'
-            value={thirdSelection}
-            onChange={handleThirdChange}
-          >
-            <option value=''>Select...</option>
-            
-            {userOptions.map(option => (
-            <option key={option} value={option}>{option}</option>
-          ))}
-          </Form.Select>)
-          }
-      
-        </Form.Group>
-                  )}      
-               
-               
-          </Col>   <Col>
-                  {thirdSelection && (
-                  <Form.Group className='mb-3' controlId='category'>
+  
+              <Col>
+              {secondSelection && (
+              <Form.Group className='mb-3' controlId='category'>
+    
+      <Form.Label>Criteria III</Form.Label>
+  
+      {
+        firstSelection !== "Users" ? (
+  
+      <Form.Select
+        aria-label='Category'
+        value={thirdSelection}
+        onChange={handleThirdChange}
+      >
+        <option value=''>Select...</option>
         
-          <Form.Label>Go</Form.Label>
-          <div className="mb-3">
-            <Button type="submit">
-              Find
-            </Button>
-       
-          </div>  
-      
-        </Form.Group>
+        {thirdOptions[secondSelection].map(option => (
+        <option key={option} value={option}>{option}</option>
+      ))}
+      </Form.Select>):(  <Form.Select
+        aria-label='Category'
+        value={thirdSelection}
+        onChange={handleThirdChange}
+      >
+        <option value=''>Select...</option>
+        
+        {userOptions.map(option => (
+        <option key={option} value={option}>{option}</option>
+      ))}
+      </Form.Select>)
+      }
+  
+    </Form.Group>
+              )}      
+           
+           
+      </Col>   <Col>
+              {thirdSelection && (
+              <Form.Group className='mb-3' controlId='category'>
+    
+      <Form.Label>Submit</Form.Label>
+      <div className="mb-3">
+  
+        <Button onClick={()=>setShowReport(true)} type="submit">
+  
+          Generate Live Report
+        </Button>
+  
+   
+      </div>  
+  
+    </Form.Group>
+  
+  
+  // </Form>
+  
+  )}     
+        
+              </Col>
+              </Row>
+            </Card.Body>
+          </Card>
+          </Form>
+      </div>
+      <div className='my-3'>
+        <h2>Sales</h2>
+        {summary.dailyOrders.length === 0 ? (
+          <MessageBox>No Sale</MessageBox>
+        ) : (
+          <Chart
+            width='100%'
+            height='400px'
+            chartType='AreaChart'
+            loader={<div>Loading Chart...</div>}
+            data={[
+              ['Date', 'Sales'],
+              ...summary.dailyOrders.map((x) => [x._id, x.sales]),
+            ]}
+          ></Chart>
+        )}
+      </div>
+      <div className='my-3'>
+        <h2>Categories</h2>
+        {summary.productCategories.length === 0 ? (
+          <MessageBox>No Category</MessageBox>
+        ) : (
+          <Chart
+            width='100%'
+            height='400px'
+            chartType='PieChart'
+            loader={<div>Loading Chart...</div>}
+            data={[
+              ['Category', 'Products'],
+              ...summary.productCategories.map((x) => [x._id, x.count]),
+            ]}
+          ></Chart>
+        )}
+      </div>
+    </>
+  )}
+  </div>):(
+  
+  
+  <div className='main-report'>
+
+        
+<div className='main-middle'>
+<IoMdClose onClick={()=>setShowReport(false)}  className='close-out'/>
+<h2 > Live Report for   {firstSelection}  | {secondSelection}  | {thirdSelection}</h2>
+          <Button className='rightt'>Download Report</Button>
+
+</div>
 
 
-// </Form>
 
-)}     
-            
-                  </Col>
-                  </Row>
-                </Card.Body>
-              </Card>
-              </Form>
-          </div>
-          <div className='my-3'>
-            <h2>Sales</h2>
-            {summary.dailyOrders.length === 0 ? (
-              <MessageBox>No Sale</MessageBox>
-            ) : (
-              <Chart
-                width='100%'
-                height='400px'
-                chartType='AreaChart'
-                loader={<div>Loading Chart...</div>}
-                data={[
-                  ['Date', 'Sales'],
-                  ...summary.dailyOrders.map((x) => [x._id, x.sales]),
-                ]}
-              ></Chart>
-            )}
-          </div>
-          <div className='my-3'>
-            <h2>Categories</h2>
-            {summary.productCategories.length === 0 ? (
-              <MessageBox>No Category</MessageBox>
-            ) : (
-              <Chart
-                width='100%'
-                height='400px'
-                chartType='PieChart'
-                loader={<div>Loading Chart...</div>}
-                data={[
-                  ['Category', 'Products'],
-                  ...summary.productCategories.map((x) => [x._id, x.count]),
-                ]}
-              ></Chart>
-            )}
-          </div>
-        </>
-      )}
-    </div>
+</div>
+
+
+
+
+
+)
+
+
+
+}
+
+    
+    </>
+     
   );
 }
