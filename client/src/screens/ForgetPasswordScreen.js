@@ -26,11 +26,20 @@ export default function ForgetPasswordScreen() {
 
   const submitHandler = async (e) => {
     e.preventDefault();
+   
+      
+     
     try {
       const { data } = await Axios.post('/db/users/forget-password', {
         email,
       });
       toast.success(data.message);
+      localStorage.removeItem('userInfo');
+      localStorage.removeItem('shippingAddress');
+      localStorage.removeItem('paymentMethod');
+      localStorage.removeItem('cartItems');
+
+  
     } catch (err) {
       toast.error(getError(err));
     }
