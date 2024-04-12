@@ -18,18 +18,25 @@ main {
 .notes {
   margin-bottom: .5rem;
   width: 95%;
-  min-height: 6rem;
+  min-height: 10rem;
   align-self: center;
   border: 1px solid grey;
-  /* padding: ; */
+
   outline: none;
-  max-height: 6rem;
+  max-height: 10rem;
+  padding: 1rem;
   border-radius: 0.5rem;
 }
 .hidden {
   display: none;
 }
 
+.report-info{
+  font-size: 1.5rem;
+  display: block;
+  align-self: center;
+  margin-left: 2rem;
+}
 .tablee {
 width: 100vw;
 border: 1px solid red;
@@ -37,13 +44,41 @@ padding: 2rem;
 margin-top: 20rem;
 
 }
+.make-main {
+  color:  rgb(185, 56, 14);
+  font-weight: 900;
+}
 .main-report{
   /* background-color: rgba(185, 57, 14, 0.096); */
   min-height: 90vh;
   border-radius: 4px;
-  border:1px solid  rgb(185, 56, 14);
+  /* border:1px solid  rgb(185, 56, 14); */
   padding: 1rem;
 
+}
+.higher {
+  height: 25rem;
+}
+notes
+
+.table-container {
+  /* margin-top: 245rem; */
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  /* height: 100vh; */
+}
+
+.centered-table {
+  width: 80%;
+  text-align: center;
+  border-collapse: collapse;
+}
+
+.centered-table th,
+.centered-table td {
+  padding: 8px;
+  border: 1px solid #ddd;
 }
 .flat {
   display: flex;
@@ -70,6 +105,7 @@ font-size: 2rem;
   justify-content: space-around;
 
 }
+/* floater */
 
 .rightt {
 
@@ -106,8 +142,16 @@ font-size: 2rem;
   font-size: 16px;
   font-weight: 200;
 }
+.smaller2 {
+  font-size: 16px;
+  /* font-weight: 200; */
+}
 .btnred {
   background-color: rgb(185, 56, 14);
+}
+.push {
+  margin-right: 2rem;
+  width: 4rem;
 }
 .form-container {
   width: 90%;
@@ -195,6 +239,10 @@ width: 23rem;
   color: rgb(185, 56, 14);
 
 }
+.changer2 {
+  color: red;
+
+}
 .btn-primary,
 .btn-outline-primary {
   background-color: rgb(185, 56, 14);
@@ -209,6 +257,19 @@ width: 23rem;
   /* left: 200; */
   margin-right:.5rem;
   margin-top:  -3.0rem;
+
+
+  z-index: 20;
+
+}
+
+.floater2{
+  font-size:32px;
+  position:fixed;
+  right: 00;
+  /* left: 200; */
+  margin-right:.5rem;
+  margin-top:  42.0rem;
 
 
   z-index: 20;

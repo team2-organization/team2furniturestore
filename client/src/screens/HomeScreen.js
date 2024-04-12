@@ -11,6 +11,8 @@ import Badge from 'react-bootstrap/Badge';
 import { Link } from 'react-router-dom';
 // import data from '../data';
 import { FaShoppingCart } from "react-icons/fa";
+import { FaBell } from "react-icons/fa";
+
 
 
 const reducer = (state, action) => {
@@ -27,7 +29,7 @@ const reducer = (state, action) => {
 };
 
 function HomeScreen() {
-  
+
   const { state, dispatch: ctxDispatch } = useContext(Store);
   const { fullBox, cart, userInfo } = state;
   const [{ loading, error, products }, dispatch] = useReducer(reducer, {
@@ -51,6 +53,15 @@ function HomeScreen() {
     fetchData();
   }, []);
   
+  let countLessThan10 = 0;
+
+  products.forEach((product) => {
+    if (product.countInStock < 10) {
+      countLessThan10++;
+    }
+  });
+  
+
 
 
   const reversedData = products ? products.slice().reverse():[];
@@ -60,7 +71,7 @@ function HomeScreen() {
         <title>Team 2</title>
       </Helmet>
       <h1>New Items</h1>
-      {cart.cartItems.length > 0 ? (
+      {cart.cartItems.length  > 0 ? (
       <Link
                     style={{ color: 'white' }}
                     to='/cart'
@@ -70,6 +81,29 @@ function HomeScreen() {
                     {cart.cartItems.length > 0 && (
                       <Badge className='smaller' pill bg='danger'>
                         {cart.cartItems.reduce((a, c) => a + c.quantity, 0)}
+                      </Badge>
+                    )}
+                  </Link>):(null)
+}
+    
+    
+    
+
+      { countLessThan10 > 0 && state.userInfo.isAdmin === "true" ? (
+      <Link
+    to='/admin/restock'
+
+    
+                    style={{ color: 'white' }}
+                
+                    className='floater2'
+                  >
+                    
+                    {/* <FaBell className='changer2'/> */}
+                    { (
+                      <Badge className='smaller2' pill bg='danger'>
+                        Redzone
+       ({countLessThan10})
                       </Badge>
                     )}
                   </Link>):(null)

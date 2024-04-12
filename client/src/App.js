@@ -9,7 +9,7 @@ import Nav from 'react-bootstrap/Nav';
 import NavDropdown from 'react-bootstrap/NavDropdown';
 import Container from 'react-bootstrap/Container';
 import { LinkContainer } from 'react-router-bootstrap';
-import { useContext, useEffect, useState } from 'react';
+import { useContext, useEffect, useState, useReducer } from 'react';
 import { Store } from './Store';
 import CartScreen from './screens/CartScreen';
 import SigninScreen from './screens/SigninScreen';
@@ -43,6 +43,7 @@ import ForgetPasswordScreen from './screens/ForgetPasswordScreen';
 import ResetPasswordScreen from './screens/ResetPasswordScreen';
 import { MdOutlineLightMode } from 'react-icons/md';
 import { MdOutlineDarkMode } from 'react-icons/md';
+import Restock from './screens/Restock';
 
 function App() {
   const { state, dispatch: ctxDispatch } = useContext(Store);
@@ -65,6 +66,31 @@ function App() {
   const [categories, setCategories] = useState([]);
   const [brands, setBrands] = useState([]);
   const [rating, setRating] = useState([]);
+
+
+  const reducer = (state, action) => {
+    switch (action.type) {
+      case 'FETCH_REQUEST':
+        return { ...state, loading: true };
+      case 'FETCH_SUCCESS':
+        return { ...state, products: action.payload, loading: false };
+      case 'FETCH_FAIL':
+        return { ...state, loading: false, error: action.payload };
+      default:
+        return state;
+    }
+  };
+
+  const [{ loading, error, products }, dispatch] = useReducer(reducer, {
+    products: [],
+    loading: true,
+    error: '',
+  });
+  
+
+
+
+
 
   useEffect(() => {
     const fetchCategories = async () => {
@@ -90,18 +116,55 @@ function App() {
     fetchCategories();
   }, []);
  const starRatings = ["0 - 499","500 - 1499","1500 - 4999","5000 - 9999","10000 - 14999"]
-  // useEffect(() => {
-  //   const fetchCategories = async () => {
-  //     try {
-  //       const { data } = await axios.get(`/db/products/allratings`);
-  //       setBrands(data);
- 
-  //     } catch (err) {
-  //       toast.error(getError(err));
-  //     }
-  //   };
-  //   fetchCategories();
-  // }, []);
+ useEffect(() => {
+  const fetchData = async () => {
+    dispatch({ type: 'FETCH_REQUEST' });
+    try {
+      const result = await axios.get('/db/products');
+      dispatch({ type: 'FETCH_SUCCESS', payload: result.data });
+    } catch (err) {
+      dispatch({ type: 'FETCH_FAIL', payload: err.message });
+    }
+
+    // setProducts(result.data);
+  };
+  fetchData();
+}, []);
+
+let countLessThan10 = 0;
+
+products.forEach((product) => {
+  if (product.countInStock < 10) {
+    countLessThan10++;
+  }
+});
+
+
+
+
+
+
+
+
+//  { countLessThan10 > 0 && state.userInfo.isAdmin === "true" ? (
+//   <Link
+// to='/admin/restock'
+
+
+//                 style={{ color: 'white' }}
+            
+//                 className='floater2'
+//               >
+                
+//                 {/* <FaBell className='changer2'/> */}
+//                 { (
+//                   <Badge className='smaller2' pill bg='danger'>
+//                     Redzone
+//    ({countLessThan10})
+//                   </Badge>
+//                 )}
+//               </Link>):(null)
+// }
  
   return (
     <BrowserRouter>
@@ -159,7 +222,7 @@ function App() {
                         <NavDropdown.Item>User Profile</NavDropdown.Item>
                       </LinkContainer>
                       <LinkContainer to='/orderhistory'>
-                        <NavDropdown.Item>Order History</NavDropdown.Item>
+                        <NavDropdown.Item>My Orders</NavDropdown.Item>
                       </LinkContainer>
                       <NavDropdown.Divider />
                       <Link
@@ -286,6 +349,7 @@ function App() {
               <Route path='/bsearch' element={<BSearchScreen />} />
               <Route path='/signin' element={<SigninScreen />} />
               <Route path='/signup' element={<SignupScreen />} />
+
               <Route
                 path='/forget-password'
                 element={<ForgetPasswordScreen />}
@@ -390,6 +454,14 @@ function App() {
                   </AdminRoute>
                 }
               ></Route>
+            <Route
+                path='/admin/restock'
+                element={
+                  <AdminRoute>
+                    <Restock />
+                  </AdminRoute>
+                }
+              ></Route> 
               <Route
                 path='/admin/product/newproduct'
                 element={
