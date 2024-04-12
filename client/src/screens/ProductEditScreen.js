@@ -295,10 +295,11 @@ export default function ProductEditScreen() {
           </Form.Group>
           <Form.Group className='mb-3' controlId='description'>
             <Form.Label>Description</Form.Label>
-            <Form.Control
+            <textarea
               value={description}
               onChange={(e) => setDescription(e.target.value)}
               required
+              className='notes'
             />
           </Form.Group>
           <div className='mb-3'>
