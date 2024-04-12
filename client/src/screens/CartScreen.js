@@ -156,24 +156,31 @@ export default function CartScreen() {
                             // console.log('d');
                           }
                         }}
-                        disabled={
-                          item.quantity === item.countInStock ||
-                          lowCount ||
-                          item.countInStock === 10 ||
-                          (lowCount && item.quantity === 2)
+                       disabled={
+                          (item.countInStock - item.quantity < 11 )||
+          
+                          item.countInStock < 10 
+                         
                         }
                       >
                         <i className='fas fa-plus-circle'></i>
                       </Button>
+
                     </Col>
-                    <Col md={3}>${item.price}</Col>
+                    <Col md={3}>${item.price} {}</Col>
+                  
                     <Col md={2}>
                       <Button
                         onClick={() => removeItemHandler(item)}
                         variant='light'
-                      >
+                        >
                         <i className='red-bg fas fa-trash'></i>
                       </Button>
+                  {
+                    item.countInStock < 10  || (item.countInStock - item.quantity < 11 ) ?  (
+                      <strong className='low'  md={3}>{"Low"} {}</strong>) : (null)
+    
+                  }
                     </Col>
                   </Row>
                 </ListGroup.Item>

@@ -30,7 +30,10 @@ main {
 .hidden {
   display: none;
 }
-
+.low{
+  color:red;
+  display: inline;
+}
 .report-info{
   font-size: 1.5rem;
   display: block;
