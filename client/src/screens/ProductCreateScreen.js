@@ -113,7 +113,7 @@ export default function ProductEditScreen() {
         type: 'UPDATE_SUCCESS',
       });
       toast.success('Product updated successfully');
-      navigate('/admin/products');
+      navigate('/');
     } catch (err) {
       toast.error(getError(err));
       dispatch({ type: 'UPDATE_FAIL' });
@@ -123,7 +123,7 @@ export default function ProductEditScreen() {
     const file = e.target.files[0];
     const bodyFormData = new FormData();
     bodyFormData.append('file', file);
-    console.log(bodyFormData);
+
     try {
       dispatch({ type: 'UPLOAD_REQUEST' });
       const { data } = await axios.post('/db/upload', bodyFormData, {
@@ -271,10 +271,11 @@ export default function ProductEditScreen() {
         </Form.Group>
         <Form.Group className='mb-3' controlId='description'>
           <Form.Label>Description</Form.Label>
-          <Form.Control
+          <textarea
             value={description}
             onChange={(e) => setDescription(e.target.value)}
             required
+            className='notes'
           />
         </Form.Group>
 
