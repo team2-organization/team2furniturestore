@@ -61,9 +61,6 @@ function HomeScreen() {
     }
   });
   
-
-
-
   const reversedData = products ? products.slice().reverse():[];
   return (
     <div className='floater-head'>
@@ -86,10 +83,7 @@ function HomeScreen() {
                   </Link>):(null)
 }
     
-    
-    
-
-      { countLessThan10 > 0 && state.userInfo.isAdmin === "true" ? (
+      { countLessThan10 > 0 && state.userInfo && state.userInfo.isAdmin === "true" ? (
       <Link
     to='/admin/restock'
 
@@ -99,7 +93,7 @@ function HomeScreen() {
                     className='floater2'
                   >
                     
-                    {/* <FaBell className='changer2'/> */}
+                    <FaBell className='changer2'/>
                     { (
                       <Badge className='smaller2' pill bg='danger'>
                         Redzone

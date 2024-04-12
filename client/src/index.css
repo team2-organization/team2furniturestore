@@ -62,7 +62,7 @@ margin-top: 20rem;
 .higher {
   height: 25rem;
 }
-notes
+.floater2
 
 .table-container {
   /* margin-top: 245rem; */
@@ -243,7 +243,7 @@ width: 23rem;
 
 }
 .changer2 {
-  color: red;
+  color:  rgb(185, 56, 14);
 
 }
 .btn-primary,
@@ -271,8 +271,8 @@ width: 23rem;
   position:fixed;
   right: 00;
   /* left: 200; */
-  margin-right:.5rem;
-  margin-top:  42.0rem;
+  margin-right:7rem;
+  margin-top:  -3.5rem;
 
 
   z-index: 20;
