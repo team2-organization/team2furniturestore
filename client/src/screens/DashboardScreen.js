@@ -75,7 +75,10 @@ export default function DashboardScreen() {
   const [fourthSelection, setFourthSelection] = useState("");
   const [showReport, setShowReport] = useState(false);
 
-  const firstOptions = ["Sales / Transactions", "Users", "Refunds"];
+  const firstOptions = ["Sales / Transactions", 
+  "Users", 
+  // "Refunds"
+];
   const secondOptions = {
     "Sales / Transactions": [
       "Best Selling Category",
@@ -138,8 +141,6 @@ export default function DashboardScreen() {
   };
   const userOptions = [
     "All Orders",
-    "All Reviews",
-    "All Refund Requests",
     "Highest transactions",
     "Lowest Transactions",
   ];
@@ -289,10 +290,38 @@ if (secondSelection === "Lowest Transactions") {
   
   smallestNumber = sortAndReturnSmallest(reportData);
 }
+if (thirdSelection === "Lowest Transactions") {
+
+  function sortAndReturnSmallest(numbers) {
+    // Sort the array of numbers in ascending order
+    numbers.sort((a, b) => a - b);
+  
+    // Return the smallest number (first element of the sorted array)
+    return numbers[0];
+  }
+  
+
+  
+  smallestNumber = sortAndReturnSmallest(reportData);
+}
 
   
 let highestNumber = 0
 if (secondSelection === "Highest Transactions") {
+
+  function sortAndReturnHighest(numbers) {
+    // Sort the array of numbers in descending order
+    numbers.sort((a, b) => b - a);
+  
+    // Return the highest number (first element of the sorted array)
+    return numbers[0];
+  }
+  
+  
+  highestNumber = sortAndReturnHighest(reportData);
+
+}  
+if (thirdSelection === "Highest transactions") {
 
   function sortAndReturnHighest(numbers) {
     // Sort the array of numbers in descending order
@@ -1481,6 +1510,96 @@ if (secondSelection === "Highest Transactions") {
                         <tr key={index}>
                           <td>{index + 1}</td>
                           <td className={smallestNumber === category ? "make-main" : ""}>
+                            ${category}
+                          </td>
+                        </tr>
+                      ))}
+                    </tbody>
+                  </table>
+                </div>
+              </>
+            )}
+               {firstSelection === "Users" &&
+            // secondSelection === "Lowest Transactions" &&
+            thirdSelection === "All Orders" && (
+              <>
+                <p className="report-info">
+                 All Orders for
+                  <strong> {secondSelection}</strong> 
+                </p>
+                <div className="table-container">
+                  <table className="centered-table">
+                    <thead>
+                      <tr>
+                        <th>Index</th>
+                        <th>Value</th>
+                      </tr>
+                    </thead>
+                    <tbody>
+                      {reportData.map((category, index) => (
+                        <tr key={index}>
+                          <td>{index + 1}</td>
+                          <td className={smallestNumber === category ? "make-main" : ""}>
+                            {category}
+                          </td>
+                        </tr>
+                      ))}
+                    </tbody>
+                  </table>
+                </div>
+              </>
+            )}
+               {firstSelection === "Users" &&
+            // secondSelection === "Lowest Transactions" &&
+            thirdSelection === "Lowest Transactions" && (
+              <>
+                <p className="report-info">
+                Lowest Transactions for
+                  <strong> {secondSelection}</strong> 
+                </p>
+                <div className="table-container">
+                  <table className="centered-table">
+                    <thead>
+                      <tr>
+                        <th>Index</th>
+                        <th>Value</th>
+                      </tr>
+                    </thead>
+                    <tbody>
+                      {reportData.map((category, index) => (
+                        <tr key={index}>
+                          <td>{index + 1}</td>
+                          <td className={smallestNumber === category ? "make-main" : ""}>
+                            ${category}
+                          </td>
+                        </tr>
+                      ))}
+                    </tbody>
+                  </table>
+                </div>
+              </>
+            )}
+               {firstSelection === "Users" &&
+            // secondSelection === "Lowest Transactions" &&
+            thirdSelection === "Highest transactions" && (
+              <>
+                <p className="report-info">
+                Highest transactions for
+                  <strong> {secondSelection}</strong> 
+                </p>
+                <div className="table-container">
+                  <table className="centered-table">
+                    <thead>
+                      <tr>
+                        <th>Index</th>
+                        <th>Value</th>
+                      </tr>
+                    </thead>
+                    <tbody>
+                      {reportData.map((category, index) => (
+                        <tr key={index}>
+                          <td>{index + 1}</td>
+                          <td className={highestNumber === category ? "make-main" : ""}>
                             ${category}
                           </td>
                         </tr>

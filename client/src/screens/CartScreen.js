@@ -157,7 +157,7 @@ export default function CartScreen() {
                           }
                         }}
                        disabled={
-                          (item.countInStock - item.quantity < 11 )||
+                          (item.countInStock - item.quantity < 10 )||
           
                           item.countInStock < 10 
                          
@@ -177,7 +177,7 @@ export default function CartScreen() {
                         <i className='red-bg fas fa-trash'></i>
                       </Button>
                   {
-                    item.countInStock < 10  || (item.countInStock - item.quantity < 11 ) ?  (
+                    item.countInStock < 10  || (item.countInStock - item.quantity < 10 ) ?  (
                       <strong className='low'  md={3}>{"Low"} {}</strong>) : (null)
     
                   }

@@ -109,11 +109,12 @@ export default function Restock() {
         const productId = e.target.id
 
         const value = countInStock[Object.keys(countInStock)[0]];
-  
+   setCountInStock("")
         if(value < 10) {
             alert("Restock Quantiity must be greater than 10")
             return;
         }
+
 
       dispatch({ type: 'UPDATE_REQUEST' });
       await axios.post(
