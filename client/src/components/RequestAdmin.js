@@ -151,7 +151,7 @@ export default function RequestAdmin() {
       } else {
         setImage(data.secure_url);
       }
-      toast.success("Image uploaded successfully. click Update to apply it");
+      toast.success("Image uploaded successfully.");
     } catch (err) {
       toast.error(getError(err));
       dispatch({ type: "UPLOAD_FAIL", payload: getError(err) });
