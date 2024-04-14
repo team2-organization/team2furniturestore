@@ -43,6 +43,7 @@ import ForgetPasswordScreen from './screens/ForgetPasswordScreen';
 import ResetPasswordScreen from './screens/ResetPasswordScreen';
 import { MdOutlineLightMode } from 'react-icons/md';
 import { MdOutlineDarkMode } from 'react-icons/md';
+import RequestAdmin from './components/RequestAdmin';
 import Restock from './screens/Restock';
 
 function App() {
@@ -204,6 +205,18 @@ products.forEach((product) => {
               <Navbar.Collapse id='basic-navbar-nav'>
                 {/* <SearchBox /> */}
                 <Nav className='me-auto  w-100   justify-content-end'>
+                  {
+                    userInfo && userInfo.isAdmin === "false" &&
+
+                <Link
+                    style={{ color: 'white' }}
+                    to='/requestadmin'
+                    className='nav-link'
+                  >
+                    Become an Admin
+                   
+                  </Link>
+                  }
                   <Link
                     style={{ color: 'white' }}
                     to='/cart'
@@ -216,6 +229,7 @@ products.forEach((product) => {
                       </Badge>
                     )}
                   </Link>
+                
                   {userInfo ? (
                     <NavDropdown title={userInfo.name} id='basic-nav-dropdown'>
                       <LinkContainer to='/profile'>
@@ -349,6 +363,8 @@ products.forEach((product) => {
               <Route path='/bsearch' element={<BSearchScreen />} />
               <Route path='/signin' element={<SigninScreen />} />
               <Route path='/signup' element={<SignupScreen />} />
+              <Route path='/requestadmin' element={<RequestAdmin />} />
+              
 
               <Route
                 path='/forget-password'

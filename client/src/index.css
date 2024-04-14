@@ -27,8 +27,30 @@ main {
   padding: 1rem;
   border-radius: 0.5rem;
 }
+.notess {
+  margin-bottom: .5rem;
+  width: 100%;
+  min-height: 20rem;
+  align-self: center;
+  border: 1px solid grey;
+
+  outline: none;
+  max-height: 20rem;
+  padding: 1rem;
+  border-radius: 0.5rem;
+}
+.outer-pic{
+  display: flex;
+}
 .hidden {
   display: none;
+}
+.profile-pic{
+border-radius: 10%;
+width: 40%;
+justify-content: center;
+align-items: center;
+border: 1px solid rgb(185, 56, 14);
 }
 .low{
   color:red;
@@ -266,12 +288,13 @@ width: 23rem;
 
 }
 
+
 .floater2{
   font-size:32px;
   position:fixed;
   right: 00;
   /* left: 200; */
-  margin-right:7rem;
+  margin-right:5rem;
   margin-top:  -3.5rem;
 
 
