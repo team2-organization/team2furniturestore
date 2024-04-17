@@ -205,7 +205,7 @@ products.forEach((product) => {
               <Navbar.Collapse id='basic-navbar-nav'>
                 {/* <SearchBox /> */}
                 <Nav className='me-auto  w-100   justify-content-end'>
-                  {
+                  {/* {
                     userInfo && userInfo.isAdmin === "false" &&
 
                 <Link
@@ -216,7 +216,7 @@ products.forEach((product) => {
                     Become an Admin
                    
                   </Link>
-                  }
+                  } */}
                   <Link
                     style={{ color: 'white' }}
                     to='/cart'
