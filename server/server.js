@@ -1,6 +1,7 @@
 const http = require('http');
 const url = require('url');
 const pool = require('./db');
+
 const bcrypt = require('bcryptjs');
 const jwt = require('jsonwebtoken');
 const mg = require('mailgun-js');
@@ -85,7 +86,7 @@ const server = http.createServer(async (req, res) => {
       req.url === '/db/products/categories' &&
       pathnameSegments[3] === 'categories'
     ) {
-      console.log('2');
+
 
       pool.query('SELECT * FROM categories', (error, data) => {
         if (error) {
@@ -98,7 +99,7 @@ const server = http.createServer(async (req, res) => {
         }
       });
     } else if (parsedUrl.pathname === '/db/products/search' && query.category) {
-      console.log('3');
+
 
       const category = query.category;
 
@@ -117,7 +118,7 @@ const server = http.createServer(async (req, res) => {
         }
       );
     } else if (parsedUrl.pathname === '/db/products/admin' && query.page) {
-      console.log('4');
+
 
       const page = query.page || 2;
       const pageSize = query.pageSize || 3;
@@ -189,7 +190,7 @@ const server = http.createServer(async (req, res) => {
           } else {
             req.user = decode;
             const theUser = req.user._id;
-            console.log(theUser);
+
 
             pool.query(
               'SELECT * FROM orders WHERE user_id = ?',
@@ -423,7 +424,7 @@ const server = http.createServer(async (req, res) => {
             const fileBuffer = fs.readFileSync(file.path);
             streamUpload(fileBuffer)
               .then((result) => {
-                console.log(result);
+   
                 res.writeHead(200, { 'Content-Type': 'application/json' });
                 res.end(JSON.stringify(result));
               })
@@ -769,7 +770,7 @@ const server = http.createServer(async (req, res) => {
 
 
 // Set Up Server To Listen For Requests From Port 3001
-const PORT = process.env.PORT || 4001;
+const PORT = process.env.PORT || 4000;
 server.listen(PORT, () => {
   console.log(`Server is listening on port ${PORT}...`);
 });
