@@ -20,9 +20,9 @@ $ git clone git@github.com:team2-organization/team2furniturestore.git
 
 ### 2. Create .env File
 
-- duplicate .env.example in backend folder and rename it to .env
+- rename the .env.example file in backend folder to .env
 
-### 3. Setup .env File with application credientials provided in the project document
+### 3. Setup .env file with application credientials provided in the project document
 
 ### 4. Run Backend
 
@@ -42,7 +42,12 @@ $ npm start
 ```
 
 - Run http://localhost:3000/signin
-- Enter admin email and password and click signin
+- Login using
+
+- user email: randomuser@user.com
+- user password: pass
+
+- Enter email and password and click signin
 
 ## Support
 

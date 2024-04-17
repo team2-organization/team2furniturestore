@@ -50,8 +50,8 @@ function App() {
   const { state, dispatch: ctxDispatch } = useContext(Store);
   const { fullBox, cart, userInfo } = state;
 
-  axios.defaults.baseURL = 'http://localhost:4000/';
-  // axios.defaults.baseURL = 'https://team2furniturestore.onrender.com/';
+  // axios.defaults.baseURL = 'http://localhost:4000/';
+  axios.defaults.baseURL = 'https://team2furniturestore.onrender.com/';
 
 
   
@@ -205,7 +205,7 @@ products.forEach((product) => {
               <Navbar.Collapse id='basic-navbar-nav'>
                 {/* <SearchBox /> */}
                 <Nav className='me-auto  w-100   justify-content-end'>
-                  {
+                  {/* {
                     userInfo && userInfo.isAdmin === "false" &&
 
                 <Link
@@ -216,7 +216,7 @@ products.forEach((product) => {
                     Become an Admin
                    
                   </Link>
-                  }
+                  } */}
                   <Link
                     style={{ color: 'white' }}
                     to='/cart'
