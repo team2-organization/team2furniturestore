@@ -42,12 +42,12 @@ $ npm start
 ```
 
 - Run http://localhost:3000/signin
-- Login using
+ Login using
 
 - user email: randomuser@user.com
 - user password: pass
 
-- Enter email and password and click signin
+
 
 ## Support
 
