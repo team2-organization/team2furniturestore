@@ -111,7 +111,7 @@ export default function Restock() {
         const value = countInStock[Object.keys(countInStock)[0]];
    setCountInStock("")
         if(value < 10) {
-            alert("Restock Quantiity must be greater than 10")
+            alert("Restock Quantity must be greater than 10")
             return;
         }
 
