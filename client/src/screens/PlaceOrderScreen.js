@@ -145,13 +145,12 @@ export default function PlaceOrderScreen() {
       // Delay execution of fetchDiscountCode by 1 second
       const timeoutId = setTimeout(fetchDiscountCode, 1000);
 
-      // Cleanup function to clear the timeout if component unmounts or dependencies change
+
       return () => clearTimeout(timeoutId);
     }
   }, []);
 
-  console.log(discountCode);
-  console.log(inputValue);
+
 
   function calculateDiscount(number) {
     // Calculate 10% of the number
@@ -217,7 +216,7 @@ export default function PlaceOrderScreen() {
   };
   const previewtext = orderPlaced
     ? "Your order is on the way!"
-    : "preview order";
+    : "Preview Order";
 
   useEffect(() => {
     if (!cart.paymentMethod) {
@@ -241,7 +240,7 @@ export default function PlaceOrderScreen() {
           <h1 className="my-3">{previewtext}</h1>
         </MessageBox>
       ) : (
-        <h1 className="my-3">{previewtext}</h1>
+        <h1 className="my-3">{userBd === mynewformattedDate && (<p className="make-orange" >Happy Birthday! We didn't forget, enjoy 10% off 🎊</p>)}{previewtext}</h1>
       )}
 
       {/* {loading ? (
@@ -355,7 +354,7 @@ export default function PlaceOrderScreen() {
 
                         <Col>
                           $
-                          {discountCode === inputValue
+                          {(discountCode === inputValue) && inputValue
                             ? calculateDiscount(cart.taxPrice)
                             : cart.taxPrice.toFixed(2)}
                         </Col>
@@ -370,7 +369,7 @@ export default function PlaceOrderScreen() {
                           {/* <strong>${cart.totalPrice.toFixed(2)}</strong> */}
                           <strong>
                             $
-                            {discountCode === inputValue
+                            {(discountCode === inputValue ) && inputValue
                               ? calculateDiscount(cart.totalPrice)
                               : cart.totalPrice.toFixed(2)}
                           </strong>
