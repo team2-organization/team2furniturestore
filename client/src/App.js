@@ -50,11 +50,12 @@ function App() {
   const { state, dispatch: ctxDispatch } = useContext(Store);
   const { fullBox, cart, userInfo } = state;
 
-  axios.defaults.baseURL = 'http://localhost:4000/';
-  // axios.defaults.baseURL = 'https://team2furniturestore.onrender.com/';
+  // axios.defaults.baseURL = 'http://localhost:4000/';
+  axios.defaults.baseURL = 'https://team2furniturestore.onrender.com/';
 
+  
 
-
+  
   const signoutHandler = () => {
     ctxDispatch({ type: 'USER_SIGNOUT' });
     localStorage.removeItem('userInfo');
