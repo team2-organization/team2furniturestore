@@ -561,8 +561,7 @@ if (thirdSelection === "Highest transactions") {
                       <tr>
                         <th>Index</th>
                         <th>Value</th>
-                        <th>Buyer</th>
-                        <th>Date</th>
+            
                       </tr>
                     </thead>
                     <tbody>
@@ -576,7 +575,7 @@ if (thirdSelection === "Highest transactions") {
                           >
                             {category}
                           </td>
-                          <td>r</td>
+    
                         </tr>
                       ))}
                     </tbody>
